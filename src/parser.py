@@ -2,6 +2,9 @@
 
 import re
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+ROME_TZ = ZoneInfo("Europe/Rome")
 
 MONTHS_IT = {
     "gennaio": 1, "febbraio": 2, "marzo": 3, "aprile": 4,
@@ -43,7 +46,7 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
     Returns (description, remind_at) or None if parsing fails.
     """
     if now is None:
-        now = datetime.now()
+        now = datetime.now(ROME_TZ).replace(tzinfo=None)
 
     text = text.strip()
     # Remove common prefixes
@@ -54,13 +57,22 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
     description = text
 
     # --- Extract time ---
-    time_pattern = r"(?:alle|ore|at)\s+(\d{1,2})(?::(\d{2}))?"
-    time_match = re.search(time_pattern, description, re.IGNORECASE)
-    if time_match:
-        hour = int(time_match.group(1))
-        minute = int(time_match.group(2)) if time_match.group(2) else 0
+    # First, look for "ricordamelo/ricordami alle HH:MM" mid-text — that's the reminder time
+    reminder_pattern = r"ricordam(?:elo|i)\s+(?:alle|ore|at)\s+(\d{1,2})(?::(\d{2}))?"
+    reminder_match = re.search(reminder_pattern, description, re.IGNORECASE)
+    if reminder_match:
+        hour = int(reminder_match.group(1))
+        minute = int(reminder_match.group(2)) if reminder_match.group(2) else 0
         time_part = (hour, minute)
-        description = description[:time_match.start()] + description[time_match.end():]
+        description = description[:reminder_match.start()] + description[reminder_match.end():]
+    else:
+        time_pattern = r"(?:alle|ore|at)\s+(\d{1,2})(?::(\d{2}))?"
+        time_match = re.search(time_pattern, description, re.IGNORECASE)
+        if time_match:
+            hour = int(time_match.group(1))
+            minute = int(time_match.group(2)) if time_match.group(2) else 0
+            time_part = (hour, minute)
+            description = description[:time_match.start()] + description[time_match.end():]
 
     # Also try bare HH:MM at end of string
     if time_part is None:

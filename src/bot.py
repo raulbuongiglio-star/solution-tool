@@ -3,6 +3,9 @@
 import asyncio
 import logging
 from datetime import datetime
+from zoneinfo import ZoneInfo
+
+ROME_TZ = ZoneInfo("Europe/Rome")
 
 from telegram import Update
 from telegram.ext import (
@@ -104,7 +107,7 @@ async def check_reminders(app: Application):
     """Periodically check for appointments to notify."""
     while True:
         try:
-            now = datetime.now()
+            now = datetime.now(ROME_TZ).replace(tzinfo=None)
             pending = db.get_pending_appointments(now)
             for apt in pending:
                 try:
