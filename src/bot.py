@@ -105,10 +105,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def check_reminders(app: Application):
     """Periodically check for appointments to notify."""
+    logger.info("Reminder checker started!")
     while True:
         try:
             now = datetime.now(ROME_TZ).replace(tzinfo=None)
             pending = db.get_pending_appointments(now)
+            if pending:
+                logger.info("Found %d pending reminders at %s", len(pending), now.strftime("%H:%M"))
             for apt in pending:
                 try:
                     await app.bot.send_message(
