@@ -55,7 +55,7 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
 
     # --- Extract time ---
     time_pattern = r"(?:alle|ore|at)\s+(\d{1,2})(?::(\d{2}))?"
-    time_match = re.search(time_pattern, text, re.IGNORECASE)
+    time_match = re.search(time_pattern, description, re.IGNORECASE)
     if time_match:
         hour = int(time_match.group(1))
         minute = int(time_match.group(2)) if time_match.group(2) else 0
@@ -64,7 +64,7 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
 
     # Also try bare HH:MM at end of string
     if time_part is None:
-        bare_time = re.search(r"(\d{1,2}):(\d{2})\s*$", text)
+        bare_time = re.search(r"(\d{1,2}):(\d{2})\s*$", description)
         if bare_time:
             time_part = (int(bare_time.group(1)), int(bare_time.group(2)))
             description = description[:bare_time.start()] + description[bare_time.end():]
@@ -77,9 +77,14 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
         return None
 
     # --- Extract date ---
+    # Common Italian prepositions before dates
+    _date_prefix = r"(?:(?:del|il|al|entro\s+il|per\s+il)\s+)?"
 
     # Pattern: DD/MM/YYYY or DD/MM or DD-MM-YYYY or DD-MM
-    date_num = re.search(r"(?:il\s+)?(\d{1,2})[/\-](\d{1,2})(?:[/\-](\d{4}))?\b", text)
+    date_num = re.search(
+        rf"{_date_prefix}(\d{{1,2}})[/\-](\d{{1,2}})(?:[/\-](\d{{4}}))?(?:\b|$)",
+        description, re.IGNORECASE,
+    )
     if date_num:
         day = int(date_num.group(1))
         month = int(date_num.group(2))
@@ -93,12 +98,12 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
             return None
         description = description[:date_num.start()] + description[date_num.end():]
 
-    # Pattern: "il DD mese" (e.g., "il 25 marzo")
+    # Pattern: "il/del DD mese" (e.g., "il 25 marzo", "del 25 feb")
     if date_part is None:
         months_pattern = "|".join(MONTHS_IT.keys())
         date_text = re.search(
-            rf"(?:il\s+)?(\d{{1,2}})\s+({months_pattern})\b(?:\s+(\d{{4}}))?",
-            text, re.IGNORECASE
+            rf"{_date_prefix}(\d{{1,2}})\s+({months_pattern})\b(?:\s+(\d{{4}}))?",
+            description, re.IGNORECASE,
         )
         if date_text:
             day = int(date_text.group(1))
@@ -115,7 +120,7 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
     # Pattern: relative days (oggi, domani, dopodomani)
     if date_part is None:
         for word, delta_days in RELATIVE_DAYS.items():
-            match = re.search(rf"\b{word}\b", text, re.IGNORECASE)
+            match = re.search(rf"\b{word}\b", description, re.IGNORECASE)
             if match:
                 target = now + timedelta(days=delta_days)
                 date_part = target.replace(hour=hour, minute=minute, second=0, microsecond=0)
@@ -125,7 +130,7 @@ def parse_appointment(text: str, now: datetime | None = None) -> tuple[str, date
     # Pattern: weekday names (lunedì, martedì, ...)
     if date_part is None:
         for weekday_name, weekday_num in WEEKDAYS_IT.items():
-            match = re.search(rf"\b{weekday_name}\b", text, re.IGNORECASE)
+            match = re.search(rf"\b{weekday_name}\b", description, re.IGNORECASE)
             if match:
                 days_ahead = weekday_num - now.weekday()
                 if days_ahead <= 0:
