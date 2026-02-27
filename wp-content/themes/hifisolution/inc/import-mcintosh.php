@@ -50,10 +50,19 @@ function hifisolution_import_mcintosh() {
     update_term_meta($brand_term_id, 'brand_logo', 'https://www.mcintoshlabs.com/-/media/Images/mcintoshlabs/McIntoshLogo.svg');
     update_term_meta($brand_term_id, 'brand_website', 'https://www.mcintoshlabs.com');
 
-    // Assicura che la categoria Amplificatori esista.
-    $cat_term = term_exists('amplificatori', 'categoria_prodotto');
+    // Assicura che la categoria Amplificazioni > Integrati Stereo esista.
+    $parent_term = term_exists('amplificazioni', 'categoria_prodotto');
+    if (!$parent_term) {
+        $parent_term = wp_insert_term('Amplificazioni', 'categoria_prodotto', array('slug' => 'amplificazioni'));
+    }
+    $parent_id = is_array($parent_term) ? (int) $parent_term['term_id'] : (int) $parent_term;
+
+    $cat_term = term_exists('integrati-stereo', 'categoria_prodotto');
     if (!$cat_term) {
-        $cat_term = wp_insert_term('Amplificatori', 'categoria_prodotto', array('slug' => 'amplificatori'));
+        wp_insert_term('Amplificatori Integrati Stereo', 'categoria_prodotto', array(
+            'slug'   => 'integrati-stereo',
+            'parent' => $parent_id,
+        ));
     }
 
     // ---------- Definizione dei 6 prodotti ----------
@@ -296,7 +305,7 @@ function hifisolution_import_mcintosh() {
 
         // Tassonomie.
         wp_set_object_terms($post_id, 'mcintosh', 'brand');
-        wp_set_object_terms($post_id, 'amplificatori', 'categoria_prodotto');
+        wp_set_object_terms($post_id, array('amplificazioni', 'integrati-stereo'), 'categoria_prodotto');
         wp_set_object_terms($post_id, $product['price_range'], 'fascia_prezzo');
 
         // Meta campi prodotto.

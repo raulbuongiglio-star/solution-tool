@@ -42,20 +42,95 @@ function hifisolution_register_taxonomy_categoria_prodotto() {
 
     register_taxonomy('categoria_prodotto', array('prodotto'), $args);
 
-    // Categorie predefinite
-    $default_categories = array(
-        'diffusori'         => 'Diffusori e Casse',
-        'amplificatori'     => 'Amplificatori',
-        'giradischi'        => 'Giradischi',
-        'sorgenti-digitali' => 'Sorgenti Digitali',
-        'cuffie'            => 'Cuffie',
-        'cavi-accessori'    => 'Cavi e Accessori',
-        'sistemi-completi'  => 'Sistemi Completi',
+    // Struttura categorie e sottocategorie (identica a PrestaShop hifisolution.it).
+    $categories_tree = array(
+        'amplificazioni' => array(
+            'name'     => 'Amplificazioni',
+            'children' => array(
+                'integrati-stereo'            => 'Amplificatori Integrati Stereo',
+                'finali-stereo'               => 'Amplificatori Finali Stereo',
+                'finali-monofonici'           => 'Amplificatori Finali Monofonici',
+                'preamplificatori-stereo'     => 'Preamplificatori Stereo',
+                'preamplificatori-multicanale' => 'Preamplificatori Multicanale',
+                'finali-multicanale'          => 'Amplificatori Finali Multicanale',
+                'integrati-multicanale'       => 'Amplificatori Integrati Multicanale',
+                'integrati-valvolari'         => 'Integrati Valvolari',
+            ),
+        ),
+        'diffusori' => array(
+            'name'     => 'Diffusori',
+            'children' => array(
+                'diffusori-da-pavimento'   => 'Diffusori da Pavimento',
+                'diffusori-da-scaffale'    => 'Diffusori da Scaffale',
+                'canali-centrali'          => 'Canali Centrali',
+                'subwoofer-attivi'         => 'Subwoofer Attivi',
+                'diffusori-attivi-wireless' => 'Diffusori Attivi e Wireless',
+                'soundbar'                 => 'Soundbar',
+                'diffusori-da-incasso'     => 'Diffusori da Incasso',
+                'diffusori-da-esterno'     => 'Diffusori da Esterno',
+            ),
+        ),
+        'sorgenti' => array(
+            'name'     => 'Sorgenti',
+            'children' => array(
+                'lettori-cd-sacd'   => 'Lettori CD e SACD',
+                'lettori-bluray'    => 'Lettori Blu-ray',
+                'lettori-di-rete'   => 'Lettori di Rete',
+                'dac'               => 'DAC',
+                'sintonizzatori'    => 'Sintonizzatori',
+            ),
+        ),
+        'giradischi' => array(
+            'name'     => 'Giradischi',
+            'children' => array(
+                'bracci'                => 'Bracci',
+                'testine'               => 'Testine',
+                'preamplificatori-phono' => 'Preamplificatori Phono',
+                'accessori-pulizia'     => 'Accessori per Pulizia',
+            ),
+        ),
+        'cuffie' => array(
+            'name'     => 'Cuffie',
+            'children' => array(),
+        ),
+        'sistemi-completi' => array(
+            'name'     => 'Sistemi Completi',
+            'children' => array(
+                'sistemi-all-in-one'  => 'Sistemi All in One',
+                'sistemi-home-cinema' => 'Sistemi Home Cinema',
+            ),
+        ),
+        'cavi-accessori' => array(
+            'name'     => 'Cavi ed Accessori',
+            'children' => array(),
+        ),
+        'video' => array(
+            'name'     => 'Video',
+            'children' => array(),
+        ),
+        'usato-ex-demo' => array(
+            'name'     => 'Usato e Ex Demo',
+            'children' => array(),
+        ),
     );
 
-    foreach ($default_categories as $slug => $name) {
-        if (!term_exists($slug, 'categoria_prodotto')) {
-            wp_insert_term($name, 'categoria_prodotto', array('slug' => $slug));
+    foreach ($categories_tree as $slug => $cat) {
+        $parent_term = term_exists($slug, 'categoria_prodotto');
+        if (!$parent_term) {
+            $parent_term = wp_insert_term($cat['name'], 'categoria_prodotto', array('slug' => $slug));
+        }
+        if (is_wp_error($parent_term)) {
+            continue;
+        }
+        $parent_id = is_array($parent_term) ? (int) $parent_term['term_id'] : (int) $parent_term;
+
+        foreach ($cat['children'] as $child_slug => $child_name) {
+            if (!term_exists($child_slug, 'categoria_prodotto')) {
+                wp_insert_term($child_name, 'categoria_prodotto', array(
+                    'slug'   => $child_slug,
+                    'parent' => $parent_id,
+                ));
+            }
         }
     }
 }
