@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="navy" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3d5c" />
+      <stop offset="100%" stop-color="#122a42" />
+    </linearGradient>
+  </defs>
+
+  <!-- ===== House roof icon ===== -->
+  <path d="M200,10 L258,56 L248,56 L200,20 L152,56 L142,56 Z"
+        fill="url(#navy)" />
+  <rect x="233" y="18" width="9" height="18" rx="1" fill="url(#navy)" />
+
+  <!-- ===== H letter (geometric rectangles) ===== -->
+  <rect x="100" y="68" width="18" height="92" rx="1.5" fill="url(#navy)" />
+  <rect x="164" y="68" width="18" height="92" rx="1.5" fill="url(#navy)" />
+  <rect x="100" y="104" width="82" height="18" rx="1.5" fill="url(#navy)" />
+
+  <!-- ===== & symbol ===== -->
+  <text x="201" y="130" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="30" font-weight="bold" font-style="italic"
+        fill="#b8834a">&amp;</text>
+
+  <!-- ===== S letter (stroked path for clean vector rendering) ===== -->
+  <path d="
+    M282,84
+    C282,74 274,68 260,68
+    L250,68
+    C236,68 226,76 226,88
+    C226,100 234,106 250,110
+    L264,114
+    C276,117 282,124 282,136
+    C282,150 272,160 256,160
+    L248,160
+    C232,160 222,150 222,138
+  "
+  fill="none" stroke="url(#navy)" stroke-width="18"
+  stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- ===== HOME text ===== -->
+  <text x="200" y="206" text-anchor="middle"
+        font-family="'Montserrat', 'Trebuchet MS', Helvetica, Arial, sans-serif"
+        font-size="24" font-weight="700" letter-spacing="7"
+        fill="url(#navy)">HOME</text>
+
+  <!-- ===== Gold decorative line ===== -->
+  <line x1="125" y1="218" x2="275" y2="218"
+        stroke="#b8834a" stroke-width="1.2" />
+
+  <!-- ===== SOLUTION text ===== -->
+  <text x="200" y="244" text-anchor="middle"
+        font-family="'Montserrat', 'Trebuchet MS', Helvetica, Arial, sans-serif"
+        font-size="24" font-weight="700" letter-spacing="7"
+        fill="url(#navy)">SOLUTION</text>
+</svg>
