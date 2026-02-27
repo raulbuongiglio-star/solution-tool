@@ -152,7 +152,7 @@ get_header();
 
             <div class="hifi-map hifi-reveal">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3019.123456789!2d14.2681!3d40.8518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sHiFi+Solution!5e0!3m2!1sit!2sit!4v1234567890"
+                    src="https://www.google.com/maps?q=Via+Massimo+Stanzione+6,+80129+Napoli,+Italia&output=embed"
                     width="100%"
                     height="400"
                     style="border:0;"

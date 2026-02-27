@@ -83,14 +83,15 @@ defined('ABSPATH') || exit;
                     <ul class="hifi-footer__links">
                         <li style="margin-bottom: 12px;">
                             <span style="color: var(--hifi-text-muted); font-size: 0.8rem; display: block;"><?php esc_html_e('Indirizzo', 'hifisolution'); ?></span>
-                            Napoli (NA), Italia
+                            Via Massimo Stanzione 6<br>80129 Napoli (NA), Italia
                         </li>
                         <li style="margin-bottom: 12px;">
                             <span style="color: var(--hifi-text-muted); font-size: 0.8rem; display: block;"><?php esc_html_e('Telefono', 'hifisolution'); ?></span>
-                            <a href="tel:+39081XXXXXXX">+39 081 XXX XXXX</a>
+                            <a href="tel:+390812298596">+39 081 2298596</a>
                         </li>
                         <li style="margin-bottom: 12px;">
                             <span style="color: var(--hifi-text-muted); font-size: 0.8rem; display: block;"><?php esc_html_e('Email', 'hifisolution'); ?></span>
+                            <a href="mailto:info@hs-hifi.it">info@hs-hifi.it</a><br>
                             <a href="mailto:info@hifisolution.it">info@hifisolution.it</a>
                         </li>
                         <li>
@@ -110,7 +111,7 @@ defined('ABSPATH') || exit;
                     | <a href="<?php echo esc_url(home_url('/cookie-policy/')); ?>"><?php esc_html_e('Cookie Policy', 'hifisolution'); ?></a>
                 </div>
                 <div>
-                    P.IVA: XXXXXXXXXXX
+                    P.IVA: 08014941218
                 </div>
             </div>
         </div>
