@@ -22,13 +22,18 @@ function hifisolution_import_rotel() {
         wp_die('Accesso non autorizzato.');
     }
 
-    // Evita doppia importazione.
-    if (get_option('hifi_rotel_imported')) {
+    // Evita doppia importazione (bypass con &force=1).
+    $force = isset($_GET['force']) && $_GET['force'] === '1';
+    if (!$force && get_option('hifi_rotel_imported')) {
         add_action('admin_notices', function () {
-            echo '<div class="notice notice-warning"><p><strong>Rotel:</strong> I prodotti sono gi&agrave; stati importati.</p></div>';
+            echo '<div class="notice notice-warning"><p><strong>Rotel:</strong> I prodotti sono gi&agrave; stati importati. Aggiungi <code>&amp;force=1</code> per reimportare.</p></div>';
         });
         return;
     }
+
+    // Rimuovi limiti di tempo e memoria per importazione massiva.
+    @set_time_limit(0);
+    @ini_set('memory_limit', '512M');
 
     // Serve per media_sideload_image.
     require_once ABSPATH . 'wp-admin/includes/media.php';
