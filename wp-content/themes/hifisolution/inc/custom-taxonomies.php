@@ -95,6 +95,7 @@ function hifisolution_register_taxonomy_brand() {
 
     // Brand predefiniti
     $default_brands = array(
+        'mcintosh'       => 'McIntosh',
         'bowers-wilkins' => 'Bowers & Wilkins',
         'marantz'        => 'Marantz',
         'rotel'          => 'Rotel',
