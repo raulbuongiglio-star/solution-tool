@@ -165,6 +165,21 @@ add_action('manage_prodotto_posts_custom_column', 'hifisolution_prodotto_admin_c
 function hifisolution_rewrite_flush() {
     hifisolution_register_cpt_prodotto();
     hifisolution_register_cpt_brand_page();
+    hifisolution_register_taxonomy_categoria_prodotto();
+    hifisolution_register_taxonomy_brand();
+    hifisolution_register_taxonomy_fascia_prezzo();
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'hifisolution_rewrite_flush');
+
+/**
+ * Auto-flush rewrite rules when theme version changes.
+ */
+function hifisolution_maybe_flush_rewrite_rules() {
+    $saved_version = get_option('hifisolution_version', '');
+    if ($saved_version !== HIFISOLUTION_VERSION) {
+        flush_rewrite_rules();
+        update_option('hifisolution_version', HIFISOLUTION_VERSION);
+    }
+}
+add_action('init', 'hifisolution_maybe_flush_rewrite_rules', 99);
