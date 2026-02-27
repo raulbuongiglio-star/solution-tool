@@ -308,6 +308,24 @@
     }
 }
 
+/* --- Brand Carousel: lento e pausa su hover --- */
+.hifi-brands__track {
+    animation: hifi-scroll 120s linear infinite !important;
+}
+
+.hifi-brands:hover .hifi-brands__track {
+    animation-play-state: paused !important;
+}
+
+.hifi-brands__item {
+    opacity: 0.6 !important;
+    filter: none !important;
+}
+
+.hifi-brands__item:hover {
+    opacity: 1 !important;
+}
+
 /* --- Print Styles --- */
 @media print {
     .site-header,
