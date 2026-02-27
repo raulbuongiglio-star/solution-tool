@@ -34,7 +34,7 @@ function hifisolution_register_taxonomy_categoria_prodotto() {
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array(
-            'slug'         => 'prodotti/categoria',
+            'slug'         => 'categoria',
             'with_front'   => false,
             'hierarchical' => true,
         ),
@@ -161,7 +161,7 @@ function hifisolution_register_taxonomy_brand() {
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array(
-            'slug'       => 'prodotti/brand',
+            'slug'       => 'brand',
             'with_front' => false,
         ),
     );
@@ -289,7 +289,7 @@ function hifisolution_register_taxonomy_fascia_prezzo() {
         'show_admin_column' => true,
         'query_var'         => true,
         'rewrite'           => array(
-            'slug'       => 'prodotti/prezzo',
+            'slug'       => 'prezzo',
             'with_front' => false,
         ),
     );
