@@ -251,8 +251,14 @@ function hifisolution_register_taxonomy_brand() {
     );
 
     foreach ($default_brands as $slug => $name) {
-        if (!term_exists($slug, 'brand')) {
-            wp_insert_term($name, 'brand', array('slug' => $slug));
+        $term = term_exists($slug, 'brand');
+        if (!$term) {
+            $term = wp_insert_term($name, 'brand', array('slug' => $slug));
+        }
+        // Rimuove eventuali loghi immagine residui dal database.
+        if (!is_wp_error($term)) {
+            $term_id = is_array($term) ? (int) $term['term_id'] : (int) $term;
+            delete_term_meta($term_id, 'brand_logo');
         }
     }
 }
