@@ -1,0 +1,21 @@
+# HiFi Solution — robots.txt
+# Posizionare questo file nella root del dominio WordPress
+
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+Disallow: /?s=
+Disallow: /search/
+Disallow: /tag/
+Disallow: /author/
+Disallow: /*?replytocom=
+Disallow: /trackback/
+Disallow: /feed/
+Disallow: /comments/feed/
+
+# Sitemap
+Sitemap: https://www.hifisolution.it/sitemap_index.xml
