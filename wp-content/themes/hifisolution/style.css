@@ -330,8 +330,12 @@ a:hover {
 .hifi-brands__track {
     display: flex;
     gap: 60px;
-    animation: hifi-scroll 30s linear infinite;
+    animation: hifi-scroll 120s linear infinite;
     width: max-content;
+}
+
+.hifi-brands:hover .hifi-brands__track {
+    animation-play-state: paused;
 }
 
 .hifi-brands__item {
@@ -340,20 +344,12 @@ a:hover {
     align-items: center;
     justify-content: center;
     height: 60px;
-    opacity: 0.5;
-    filter: grayscale(100%) brightness(2);
+    opacity: 0.6;
     transition: all var(--hifi-transition);
 }
 
 .hifi-brands__item:hover {
     opacity: 1;
-    filter: grayscale(0%) brightness(1);
-}
-
-.hifi-brands__item img {
-    max-height: 50px;
-    max-width: 150px;
-    object-fit: contain;
 }
 
 /* ============================================
