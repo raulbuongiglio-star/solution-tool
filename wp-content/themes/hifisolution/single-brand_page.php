@@ -9,7 +9,6 @@ defined('ABSPATH') || exit;
 
 get_header();
 
-$logo         = '';
 $website      = '';
 $anno         = '';
 $paese        = '';
@@ -18,18 +17,12 @@ $perche       = '';
 $brand_term   = null;
 
 if (function_exists('get_field')) {
-    $logo_data  = get_field('brand_logo');
-    $logo       = $logo_data ? $logo_data['url'] : '';
     $website    = get_field('brand_website');
     $anno       = get_field('brand_anno_fondazione');
     $paese      = get_field('brand_paese');
     $filosofia  = get_field('brand_filosofia');
     $perche     = get_field('brand_perche_scelto');
     $brand_term = get_field('brand_taxonomy_link');
-}
-
-if (!$logo && has_post_thumbnail()) {
-    $logo = get_the_post_thumbnail_url(get_the_ID(), 'hifi-brand-logo');
 }
 ?>
 
@@ -42,15 +35,7 @@ if (!$logo && has_post_thumbnail()) {
         <!-- ===== HEADER BRAND ===== -->
         <section class="hifi-section">
             <div class="hifi-container">
-                <div style="display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center;" class="hifi-reveal">
-                    <?php if ($logo) : ?>
-                        <div style="background: var(--hifi-bg-card); border-radius: var(--hifi-radius-lg); border: 1px solid var(--hifi-border); padding: 32px; display: flex; align-items: center; justify-content: center;">
-                            <img src="<?php echo esc_url($logo); ?>"
-                                 alt="<?php echo esc_attr(get_the_title() . ' logo'); ?>"
-                                 style="max-width: 100%; max-height: 100px;">
-                        </div>
-                    <?php endif; ?>
-
+                <div class="hifi-reveal">
                     <div>
                         <h1 style="margin-bottom: 12px;"><?php the_title(); ?></h1>
 

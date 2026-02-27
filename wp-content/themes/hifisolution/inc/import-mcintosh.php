@@ -47,7 +47,6 @@ function hifisolution_import_mcintosh() {
     }
 
     // Meta del brand.
-    update_term_meta($brand_term_id, 'brand_logo', 'https://www.mcintoshlabs.com/-/media/Images/mcintoshlabs/McIntoshLogo.svg');
     update_term_meta($brand_term_id, 'brand_website', 'https://www.mcintoshlabs.com');
 
     // Assicura che la categoria Amplificazioni > Integrati Stereo esista.
