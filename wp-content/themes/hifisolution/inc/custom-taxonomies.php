@@ -91,7 +91,9 @@ function hifisolution_register_taxonomy_categoria_prodotto() {
         ),
         'cuffie' => array(
             'name'     => 'Cuffie',
-            'children' => array(),
+            'children' => array(
+                'amplificatori-cuffie' => 'Amplificatori per Cuffie',
+            ),
         ),
         'sistemi-completi' => array(
             'name'     => 'Sistemi Completi',

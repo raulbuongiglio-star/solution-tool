@@ -29,6 +29,7 @@ $hifisolution_includes = array(
     '/inc/breadcrumbs.php',
     '/inc/template-functions.php',
     '/inc/import-mcintosh.php',
+    '/inc/import-rotel.php',
 );
 
 foreach ($hifisolution_includes as $file) {
