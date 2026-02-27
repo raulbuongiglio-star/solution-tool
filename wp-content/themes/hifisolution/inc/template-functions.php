@@ -62,6 +62,21 @@ function hifisolution_get_specs($post_id = null) {
         }
     }
 
+    // Fallback senza ACF: legge il repeater direttamente da post_meta.
+    if (empty($specs)) {
+        $count = (int) get_post_meta($post_id, 'prodotto_specifiche', true);
+        for ($i = 0; $i < $count; $i++) {
+            $name  = get_post_meta($post_id, "prodotto_specifiche_{$i}_specifica_nome", true);
+            $value = get_post_meta($post_id, "prodotto_specifiche_{$i}_specifica_valore", true);
+            if ($name) {
+                $specs[] = array(
+                    'name'  => $name,
+                    'value' => $value,
+                );
+            }
+        }
+    }
+
     return $specs;
 }
 
@@ -78,11 +93,58 @@ function hifisolution_get_gallery($post_id = null) {
     if (function_exists('get_field')) {
         $gallery = get_field('prodotto_galleria', $post_id);
         if ($gallery) {
+            // Includi anche la featured image come prima immagine.
+            if (has_post_thumbnail($post_id)) {
+                $thumb_id = get_post_thumbnail_id($post_id);
+                $featured = array(
+                    'ID'    => $thumb_id,
+                    'url'   => wp_get_attachment_url($thumb_id),
+                    'sizes' => array(
+                        'large'     => wp_get_attachment_image_url($thumb_id, 'large'),
+                        'thumbnail' => wp_get_attachment_image_url($thumb_id, 'thumbnail'),
+                    ),
+                    'alt' => get_post_meta($thumb_id, '_wp_attachment_image_alt', true),
+                );
+                array_unshift($gallery, $featured);
+            }
             return $gallery;
         }
     }
 
-    // Fallback: immagine in evidenza
+    // Fallback senza ACF: legge galleria da post_meta.
+    $gallery_meta = get_post_meta($post_id, 'prodotto_galleria', true);
+    if ($gallery_meta) {
+        $gallery_ids = maybe_unserialize($gallery_meta);
+        if (is_array($gallery_ids)) {
+            // Featured image prima.
+            if (has_post_thumbnail($post_id)) {
+                $thumb_id = get_post_thumbnail_id($post_id);
+                $images[] = array(
+                    'ID'    => $thumb_id,
+                    'url'   => wp_get_attachment_url($thumb_id),
+                    'sizes' => array(
+                        'large'     => wp_get_attachment_image_url($thumb_id, 'large'),
+                        'thumbnail' => wp_get_attachment_image_url($thumb_id, 'thumbnail'),
+                    ),
+                    'alt' => get_post_meta($thumb_id, '_wp_attachment_image_alt', true),
+                );
+            }
+            foreach ($gallery_ids as $img_id) {
+                $images[] = array(
+                    'ID'    => $img_id,
+                    'url'   => wp_get_attachment_url($img_id),
+                    'sizes' => array(
+                        'large'     => wp_get_attachment_image_url($img_id, 'large'),
+                        'thumbnail' => wp_get_attachment_image_url($img_id, 'thumbnail'),
+                    ),
+                    'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
+                );
+            }
+            return $images;
+        }
+    }
+
+    // Fallback finale: solo immagine in evidenza.
     if (has_post_thumbnail($post_id)) {
         $thumb_id = get_post_thumbnail_id($post_id);
         $images[] = array(
