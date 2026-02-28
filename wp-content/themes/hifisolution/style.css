@@ -545,7 +545,9 @@ a:hover {
 
 .hifi-product-single__thumbnails {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
+    margin-top: 16px;
 }
 
 .hifi-product-single__thumb {
@@ -615,6 +617,22 @@ a:hover {
 .hifi-product-single__description h2 {
     font-size: 1.5rem;
     margin: 32px 0 16px;
+}
+
+.hifi-product-single__finiture {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background-color: var(--hifi-bg-card);
+    border-left: 3px solid var(--hifi-accent);
+    border-radius: var(--hifi-radius);
+    color: var(--hifi-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.hifi-product-single__finiture strong {
+    color: var(--hifi-text-primary);
+    margin-right: 4px;
 }
 
 .hifi-product-single__cta {

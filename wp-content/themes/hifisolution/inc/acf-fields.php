@@ -61,6 +61,13 @@ function hifisolution_register_acf_fields() {
                 'instructions' => __('Contrassegna questo prodotto come novità.', 'hifisolution'),
                 'ui'           => 1,
             ),
+            array(
+                'key'          => 'field_prodotto_finiture',
+                'label'        => __('Finiture Disponibili', 'hifisolution'),
+                'name'         => 'prodotto_finiture',
+                'type'         => 'text',
+                'instructions' => __('Finiture disponibili separate da virgola (es. "Silver, Black, Rosenut")', 'hifisolution'),
+            ),
         ),
         'location' => array(
             array(
@@ -332,6 +339,13 @@ function hifisolution_prodotto_metabox_callback($post) {
             <th><label for="prodotto_novita"><?php esc_html_e('Novità', 'hifisolution'); ?></label></th>
             <td><label><input type="checkbox" id="prodotto_novita" name="prodotto_novita" value="1" <?php checked($novita, '1'); ?>> <?php esc_html_e('Contrassegna come novità', 'hifisolution'); ?></label></td>
         </tr>
+        <tr>
+            <th><label for="prodotto_finiture"><?php esc_html_e('Finiture Disponibili', 'hifisolution'); ?></label></th>
+            <td>
+                <input type="text" id="prodotto_finiture" name="prodotto_finiture" value="<?php echo esc_attr(get_post_meta($post->ID, 'prodotto_finiture', true)); ?>" class="regular-text">
+                <p class="description"><?php esc_html_e('Finiture separate da virgola (es. "Silver, Black, Rosenut")', 'hifisolution'); ?></p>
+            </td>
+        </tr>
     </table>
     <?php
 }
@@ -469,7 +483,7 @@ function hifisolution_save_prodotto_meta($post_id) {
         return;
     }
 
-    $fields = array('prodotto_shop_url', 'prodotto_prezzo_indicativo', 'prodotto_sottotitolo');
+    $fields = array('prodotto_shop_url', 'prodotto_prezzo_indicativo', 'prodotto_sottotitolo', 'prodotto_finiture');
     foreach ($fields as $field) {
         if (isset($_POST[$field])) {
             $value = $field === 'prodotto_shop_url'

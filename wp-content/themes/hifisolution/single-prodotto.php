@@ -16,11 +16,14 @@ $price         = hifisolution_get_price();
 $specs         = hifisolution_get_specs();
 $gallery       = hifisolution_get_gallery();
 $sottotitolo   = '';
+$finiture      = '';
 
 if (function_exists('get_field')) {
     $sottotitolo = get_field('prodotto_sottotitolo');
+    $finiture    = get_field('prodotto_finiture');
 } else {
     $sottotitolo = get_post_meta(get_the_ID(), 'prodotto_sottotitolo', true);
+    $finiture    = get_post_meta(get_the_ID(), 'prodotto_finiture', true);
 }
 ?>
 
@@ -125,6 +128,12 @@ if (function_exists('get_field')) {
                     <div class="hifi-product-single__description">
                         <h2><?php esc_html_e('Descrizione', 'hifisolution'); ?></h2>
                         <?php the_content(); ?>
+                        <?php if ($finiture) : ?>
+                            <p class="hifi-product-single__finiture">
+                                <strong><?php esc_html_e('Disponibile nelle finiture:', 'hifisolution'); ?></strong>
+                                <?php echo esc_html($finiture); ?>.
+                            </p>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Specifiche Tecniche -->
