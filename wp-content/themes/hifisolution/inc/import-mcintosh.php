@@ -282,9 +282,12 @@ function hifisolution_import_mcintosh() {
 
     foreach ($products as $product) {
 
-        // Evita duplicati.
+        // Aggiorna finiture su prodotti esistenti.
         $existing = get_page_by_path($product['slug'], OBJECT, 'prodotto');
         if ($existing) {
+            if (!empty($product['finiture'])) {
+                update_post_meta($existing->ID, 'prodotto_finiture', $product['finiture']);
+            }
             continue;
         }
 
@@ -311,6 +314,9 @@ function hifisolution_import_mcintosh() {
         update_post_meta($post_id, 'prodotto_sottotitolo', $product['subtitle']);
         update_post_meta($post_id, 'prodotto_shop_url', HIFISOLUTION_SHOP_URL);
         update_post_meta($post_id, 'prodotto_prezzo_indicativo', $product['price']);
+        if (!empty($product['finiture'])) {
+            update_post_meta($post_id, 'prodotto_finiture', $product['finiture']);
+        }
         update_post_meta($post_id, 'prodotto_in_evidenza', $product['featured']);
         update_post_meta($post_id, 'prodotto_novita', $product['new']);
 
