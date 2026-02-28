@@ -85,6 +85,24 @@ function hifisolution_enqueue_assets() {
 add_action('wp_enqueue_scripts', 'hifisolution_enqueue_assets');
 
 /**
+ * Carica media uploader e sortable nell'admin per i metabox nativi.
+ */
+function hifisolution_admin_enqueue($hook) {
+    if (function_exists('acf_add_local_field_group')) {
+        return;
+    }
+    if (!in_array($hook, array('post.php', 'post-new.php'), true)) {
+        return;
+    }
+    $screen = get_current_screen();
+    if ($screen && $screen->post_type === 'prodotto') {
+        wp_enqueue_media();
+        wp_enqueue_script('jquery-ui-sortable');
+    }
+}
+add_action('admin_enqueue_scripts', 'hifisolution_admin_enqueue');
+
+/**
  * Preload dei font per performance.
  */
 function hifisolution_preload_fonts() {

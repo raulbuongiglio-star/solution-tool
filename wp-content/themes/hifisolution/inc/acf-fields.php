@@ -277,6 +277,24 @@ function hifisolution_add_native_metaboxes() {
         'normal',
         'high'
     );
+
+    add_meta_box(
+        'hifi_prodotto_galleria',
+        __('Galleria Immagini', 'hifisolution'),
+        'hifisolution_prodotto_galleria_callback',
+        'prodotto',
+        'normal',
+        'default'
+    );
+
+    add_meta_box(
+        'hifi_prodotto_specifiche',
+        __('Specifiche Tecniche', 'hifisolution'),
+        'hifisolution_prodotto_specifiche_callback',
+        'prodotto',
+        'normal',
+        'default'
+    );
 }
 add_action('add_meta_boxes', 'hifisolution_add_native_metaboxes');
 
@@ -286,10 +304,11 @@ add_action('add_meta_boxes', 'hifisolution_add_native_metaboxes');
 function hifisolution_prodotto_metabox_callback($post) {
     wp_nonce_field('hifi_prodotto_meta', 'hifi_prodotto_nonce');
 
-    $shop_url   = get_post_meta($post->ID, 'prodotto_shop_url', true);
-    $prezzo     = get_post_meta($post->ID, 'prodotto_prezzo_indicativo', true);
+    $shop_url    = get_post_meta($post->ID, 'prodotto_shop_url', true);
+    $prezzo      = get_post_meta($post->ID, 'prodotto_prezzo_indicativo', true);
     $sottotitolo = get_post_meta($post->ID, 'prodotto_sottotitolo', true);
     $in_evidenza = get_post_meta($post->ID, 'prodotto_in_evidenza', true);
+    $novita      = get_post_meta($post->ID, 'prodotto_novita', true);
 
     ?>
     <table class="form-table">
@@ -309,7 +328,124 @@ function hifisolution_prodotto_metabox_callback($post) {
             <th><label for="prodotto_in_evidenza"><?php esc_html_e('In Evidenza', 'hifisolution'); ?></label></th>
             <td><label><input type="checkbox" id="prodotto_in_evidenza" name="prodotto_in_evidenza" value="1" <?php checked($in_evidenza, '1'); ?>> <?php esc_html_e('Mostra in home page', 'hifisolution'); ?></label></td>
         </tr>
+        <tr>
+            <th><label for="prodotto_novita"><?php esc_html_e('Novità', 'hifisolution'); ?></label></th>
+            <td><label><input type="checkbox" id="prodotto_novita" name="prodotto_novita" value="1" <?php checked($novita, '1'); ?>> <?php esc_html_e('Contrassegna come novità', 'hifisolution'); ?></label></td>
+        </tr>
     </table>
+    <?php
+}
+
+/**
+ * Callback per il meta box Galleria Immagini (nativo).
+ */
+function hifisolution_prodotto_galleria_callback($post) {
+    $gallery_meta = get_post_meta($post->ID, 'prodotto_galleria', true);
+    $gallery_ids  = $gallery_meta ? maybe_unserialize($gallery_meta) : array();
+    if (!is_array($gallery_ids)) {
+        $gallery_ids = array();
+    }
+    ?>
+    <div id="hifi-gallery-wrap">
+        <ul id="hifi-gallery-list" style="display:flex; flex-wrap:wrap; gap:10px; list-style:none; padding:0; margin:0 0 10px;">
+            <?php foreach ($gallery_ids as $img_id) :
+                $img_url = wp_get_attachment_image_url($img_id, 'thumbnail');
+                if (!$img_url) continue;
+            ?>
+                <li data-id="<?php echo esc_attr($img_id); ?>" style="position:relative; cursor:move;">
+                    <img src="<?php echo esc_url($img_url); ?>" style="width:80px; height:80px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+                    <button type="button" class="hifi-gallery-remove" data-id="<?php echo esc_attr($img_id); ?>" style="position:absolute; top:-6px; right:-6px; background:#dc3232; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:14px; line-height:1;">&times;</button>
+                    <input type="hidden" name="prodotto_galleria[]" value="<?php echo esc_attr($img_id); ?>">
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <button type="button" id="hifi-gallery-add" class="button"><?php esc_html_e('Aggiungi Immagini', 'hifisolution'); ?></button>
+    </div>
+    <script>
+    jQuery(function($){
+        var frame;
+        $('#hifi-gallery-add').on('click', function(e){
+            e.preventDefault();
+            if (frame) { frame.open(); return; }
+            frame = wp.media({
+                title: '<?php echo esc_js(__('Seleziona immagini', 'hifisolution')); ?>',
+                multiple: true,
+                library: { type: 'image' }
+            });
+            frame.on('select', function(){
+                var attachments = frame.state().get('selection').toJSON();
+                $.each(attachments, function(i, att){
+                    var exists = $('#hifi-gallery-list input[value="'+att.id+'"]').length;
+                    if (exists) return;
+                    var thumb = att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url;
+                    var li = '<li data-id="'+att.id+'" style="position:relative; cursor:move;">' +
+                        '<img src="'+thumb+'" style="width:80px; height:80px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">' +
+                        '<button type="button" class="hifi-gallery-remove" data-id="'+att.id+'" style="position:absolute; top:-6px; right:-6px; background:#dc3232; color:#fff; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer; font-size:14px; line-height:1;">&times;</button>' +
+                        '<input type="hidden" name="prodotto_galleria[]" value="'+att.id+'">' +
+                        '</li>';
+                    $('#hifi-gallery-list').append(li);
+                });
+            });
+            frame.open();
+        });
+        $(document).on('click', '.hifi-gallery-remove', function(e){
+            e.preventDefault();
+            $(this).closest('li').remove();
+        });
+        $('#hifi-gallery-list').sortable({ placeholder: 'ui-state-highlight' });
+    });
+    </script>
+    <?php
+}
+
+/**
+ * Callback per il meta box Specifiche Tecniche (nativo).
+ */
+function hifisolution_prodotto_specifiche_callback($post) {
+    $count = (int) get_post_meta($post->ID, 'prodotto_specifiche', true);
+    $specs = array();
+    for ($i = 0; $i < $count; $i++) {
+        $name  = get_post_meta($post->ID, "prodotto_specifiche_{$i}_specifica_nome", true);
+        $value = get_post_meta($post->ID, "prodotto_specifiche_{$i}_specifica_valore", true);
+        if ($name || $value) {
+            $specs[] = array('name' => $name, 'value' => $value);
+        }
+    }
+    ?>
+    <table id="hifi-specs-table" style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th style="text-align:left; padding:6px;"><?php esc_html_e('Specifica', 'hifisolution'); ?></th>
+                <th style="text-align:left; padding:6px;"><?php esc_html_e('Valore', 'hifisolution'); ?></th>
+                <th style="width:40px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($specs)) : foreach ($specs as $spec) : ?>
+                <tr>
+                    <td style="padding:4px;"><input type="text" name="hifi_spec_nome[]" value="<?php echo esc_attr($spec['name']); ?>" class="regular-text" style="width:100%;"></td>
+                    <td style="padding:4px;"><input type="text" name="hifi_spec_valore[]" value="<?php echo esc_attr($spec['value']); ?>" class="regular-text" style="width:100%;"></td>
+                    <td style="padding:4px;"><button type="button" class="button hifi-spec-remove">&times;</button></td>
+                </tr>
+            <?php endforeach; endif; ?>
+        </tbody>
+    </table>
+    <p><button type="button" id="hifi-spec-add" class="button"><?php esc_html_e('Aggiungi Specifica', 'hifisolution'); ?></button></p>
+    <script>
+    jQuery(function($){
+        $('#hifi-spec-add').on('click', function(){
+            var row = '<tr>' +
+                '<td style="padding:4px;"><input type="text" name="hifi_spec_nome[]" value="" class="regular-text" style="width:100%;"></td>' +
+                '<td style="padding:4px;"><input type="text" name="hifi_spec_valore[]" value="" class="regular-text" style="width:100%;"></td>' +
+                '<td style="padding:4px;"><button type="button" class="button hifi-spec-remove">&times;</button></td>' +
+                '</tr>';
+            $('#hifi-specs-table tbody').append(row);
+        });
+        $(document).on('click', '.hifi-spec-remove', function(){
+            $(this).closest('tr').remove();
+        });
+    });
+    </script>
     <?php
 }
 
@@ -345,5 +481,40 @@ function hifisolution_save_prodotto_meta($post_id) {
 
     $in_evidenza = isset($_POST['prodotto_in_evidenza']) ? '1' : '0';
     update_post_meta($post_id, 'prodotto_in_evidenza', $in_evidenza);
+
+    $novita = isset($_POST['prodotto_novita']) ? '1' : '0';
+    update_post_meta($post_id, 'prodotto_novita', $novita);
+
+    // Galleria immagini.
+    if (isset($_POST['prodotto_galleria'])) {
+        $gallery_ids = array_map('absint', (array) $_POST['prodotto_galleria']);
+        $gallery_ids = array_filter($gallery_ids);
+        update_post_meta($post_id, 'prodotto_galleria', $gallery_ids);
+    } else {
+        delete_post_meta($post_id, 'prodotto_galleria');
+    }
+
+    // Specifiche tecniche.
+    // Pulizia vecchie specifiche.
+    $old_count = (int) get_post_meta($post_id, 'prodotto_specifiche', true);
+    for ($i = 0; $i < $old_count; $i++) {
+        delete_post_meta($post_id, "prodotto_specifiche_{$i}_specifica_nome");
+        delete_post_meta($post_id, "prodotto_specifiche_{$i}_specifica_valore");
+    }
+
+    if (isset($_POST['hifi_spec_nome']) && is_array($_POST['hifi_spec_nome'])) {
+        $names  = array_map('sanitize_text_field', wp_unslash($_POST['hifi_spec_nome']));
+        $values = isset($_POST['hifi_spec_valore']) ? array_map('sanitize_text_field', wp_unslash($_POST['hifi_spec_valore'])) : array();
+        $index  = 0;
+        foreach ($names as $k => $name) {
+            if (empty($name)) continue;
+            update_post_meta($post_id, "prodotto_specifiche_{$index}_specifica_nome", $name);
+            update_post_meta($post_id, "prodotto_specifiche_{$index}_specifica_valore", $values[$k] ?? '');
+            $index++;
+        }
+        update_post_meta($post_id, 'prodotto_specifiche', $index);
+    } else {
+        update_post_meta($post_id, 'prodotto_specifiche', 0);
+    }
 }
 add_action('save_post_prodotto', 'hifisolution_save_prodotto_meta');

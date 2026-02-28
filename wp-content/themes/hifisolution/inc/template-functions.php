@@ -134,20 +134,8 @@ function hifisolution_get_gallery($post_id = null) {
     if ($gallery_meta) {
         $gallery_ids = maybe_unserialize($gallery_meta);
         if (is_array($gallery_ids)) {
-            // Featured image prima.
-            if (has_post_thumbnail($post_id)) {
-                $thumb_id = get_post_thumbnail_id($post_id);
-                $images[] = array(
-                    'ID'    => $thumb_id,
-                    'url'   => wp_get_attachment_url($thumb_id),
-                    'sizes' => array(
-                        'large'     => wp_get_attachment_image_url($thumb_id, 'large'),
-                        'thumbnail' => wp_get_attachment_image_url($thumb_id, 'thumbnail'),
-                    ),
-                    'alt' => get_post_meta($thumb_id, '_wp_attachment_image_alt', true),
-                );
-            }
             foreach ($gallery_ids as $img_id) {
+                $img_id = (int) $img_id;
                 $images[] = array(
                     'ID'    => $img_id,
                     'url'   => wp_get_attachment_url($img_id),
@@ -158,7 +146,9 @@ function hifisolution_get_gallery($post_id = null) {
                     'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
                 );
             }
-            return $images;
+            if (!empty($images)) {
+                return $images;
+            }
         }
     }
 
