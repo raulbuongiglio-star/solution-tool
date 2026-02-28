@@ -52,12 +52,17 @@ function hifisolution_get_specs($post_id = null) {
 
     if (function_exists('get_field')) {
         $rows = get_field('prodotto_specifiche', $post_id);
-        if ($rows) {
+        if (is_string($rows)) {
+            $rows = maybe_unserialize($rows);
+        }
+        if (is_array($rows)) {
             foreach ($rows as $row) {
-                $specs[] = array(
-                    'name'  => $row['specifica_nome'],
-                    'value' => $row['specifica_valore'],
-                );
+                if (is_array($row) && isset($row['specifica_nome'])) {
+                    $specs[] = array(
+                        'name'  => $row['specifica_nome'],
+                        'value' => $row['specifica_valore'] ?? '',
+                    );
+                }
             }
         }
     }
@@ -92,22 +97,35 @@ function hifisolution_get_gallery($post_id = null) {
 
     if (function_exists('get_field')) {
         $gallery = get_field('prodotto_galleria', $post_id);
-        if ($gallery) {
-            // Includi anche la featured image come prima immagine.
-            if (has_post_thumbnail($post_id)) {
-                $thumb_id = get_post_thumbnail_id($post_id);
-                $featured = array(
-                    'ID'    => $thumb_id,
-                    'url'   => wp_get_attachment_url($thumb_id),
-                    'sizes' => array(
-                        'large'     => wp_get_attachment_image_url($thumb_id, 'large'),
-                        'thumbnail' => wp_get_attachment_image_url($thumb_id, 'thumbnail'),
-                    ),
-                    'alt' => get_post_meta($thumb_id, '_wp_attachment_image_alt', true),
-                );
-                array_unshift($gallery, $featured);
+
+        // get_field può restituire una stringa serializzata se i field group
+        // non sono registrati correttamente — deserializziamo manualmente.
+        if (is_string($gallery)) {
+            $gallery = maybe_unserialize($gallery);
+        }
+
+        // Se è un array di ID (non di array associativi), convertiamo.
+        if (is_array($gallery)) {
+            $normalized = array();
+            foreach ($gallery as $item) {
+                if (is_array($item) && isset($item['url'])) {
+                    $normalized[] = $item;
+                } elseif (is_numeric($item)) {
+                    $img_id = (int) $item;
+                    $normalized[] = array(
+                        'ID'    => $img_id,
+                        'url'   => wp_get_attachment_url($img_id),
+                        'sizes' => array(
+                            'large'     => wp_get_attachment_image_url($img_id, 'large'),
+                            'thumbnail' => wp_get_attachment_image_url($img_id, 'thumbnail'),
+                        ),
+                        'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
+                    );
+                }
             }
-            return $gallery;
+            if (!empty($normalized)) {
+                return $normalized;
+            }
         }
     }
 
