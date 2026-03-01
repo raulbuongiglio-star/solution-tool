@@ -22,13 +22,9 @@ function hifisolution_import_mcintosh() {
         wp_die('Accesso non autorizzato.');
     }
 
-    // Evita doppia importazione.
-    if (get_option('hifi_mcintosh_imported')) {
-        add_action('admin_notices', function () {
-            echo '<div class="notice notice-warning"><p><strong>McIntosh:</strong> I prodotti sono gi&agrave; stati importati.</p></div>';
-        });
-        return;
-    }
+    // Modalità di esecuzione.
+    $force            = isset($_GET['force']) && $_GET['force'] === '1';
+    $already_imported = (bool) get_option('hifi_mcintosh_imported');
 
     // Serve per media_sideload_image.
     require_once ABSPATH . 'wp-admin/includes/media.php';
@@ -294,10 +290,11 @@ function hifisolution_import_mcintosh() {
     );
 
     $imported = 0;
+    $updated  = 0;
 
     foreach ($products as $product) {
 
-        // Aggiorna prodotti esistenti (finiture + galleria).
+        // Aggiorna prodotti esistenti (finiture + galleria) — sempre attivo.
         $existing = get_page_by_path($product['slug'], OBJECT, 'prodotto');
         if ($existing) {
             $eid = $existing->ID;
@@ -363,6 +360,12 @@ function hifisolution_import_mcintosh() {
                 }
             }
 
+            $updated++;
+            continue;
+        }
+
+        // Salta la creazione di nuovi prodotti se già importati (a meno di force).
+        if ($already_imported && !$force) {
             continue;
         }
 
@@ -457,8 +460,16 @@ function hifisolution_import_mcintosh() {
     // Rigenera i permalink.
     flush_rewrite_rules();
 
-    add_action('admin_notices', function () use ($imported) {
-        echo '<div class="notice notice-success"><p><strong>McIntosh:</strong> ' . esc_html($imported) . ' prodotti importati con successo!</p></div>';
+    add_action('admin_notices', function () use ($imported, $updated) {
+        $parts = array();
+        if ($imported > 0) {
+            $parts[] = esc_html($imported) . ' prodotti importati';
+        }
+        if ($updated > 0) {
+            $parts[] = esc_html($updated) . ' prodotti aggiornati';
+        }
+        $msg = !empty($parts) ? implode(', ', $parts) : 'Nessuna modifica necessaria';
+        echo '<div class="notice notice-success"><p><strong>McIntosh:</strong> ' . $msg . '.</p></div>';
     });
 }
 add_action('admin_init', 'hifisolution_import_mcintosh');
