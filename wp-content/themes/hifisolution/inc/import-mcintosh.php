@@ -346,7 +346,7 @@ function hifisolution_import_mcintosh() {
             }
         }
         if (!empty($gallery_ids)) {
-            update_post_meta($post_id, 'prodotto_galleria', serialize($gallery_ids));
+            update_post_meta($post_id, 'prodotto_galleria', $gallery_ids);
             update_post_meta($post_id, '_prodotto_galleria', 'field_prodotto_galleria');
         }
 

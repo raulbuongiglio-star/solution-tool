@@ -963,12 +963,73 @@ function hifisolution_import_rotel() {
 
     foreach ($products as $product) {
 
-        // Aggiorna finiture su prodotti esistenti.
+        // Aggiorna prodotti esistenti (finiture + galleria).
         $existing = get_page_by_path($product['slug'], OBJECT, 'prodotto');
         if ($existing) {
+            $eid = $existing->ID;
+
+            // Aggiorna finiture.
             if (!empty($product['finiture'])) {
-                update_post_meta($existing->ID, 'prodotto_finiture', $product['finiture']);
+                update_post_meta($eid, 'prodotto_finiture', $product['finiture']);
             }
+
+            // Ricostruisci galleria se mancano immagini.
+            $current_gallery = get_post_meta($eid, 'prodotto_galleria', true);
+            if (is_string($current_gallery)) {
+                $current_gallery = maybe_unserialize($current_gallery);
+            }
+            $current_count   = is_array($current_gallery) ? count($current_gallery) : 0;
+            $expected_count  = 1 + (!empty($product['front_url_2']) ? 1 : 0) + (!empty($product['back_url']) ? 1 : 0);
+
+            if ($current_count < $expected_count) {
+                $new_gallery = array();
+
+                // Immagine in evidenza esistente.
+                if (has_post_thumbnail($eid)) {
+                    $new_gallery[] = (int) get_post_thumbnail_id($eid);
+                } elseif (!empty($product['front_url'])) {
+                    $fid = media_sideload_image($product['front_url'], $eid, $product['title'] . ' — Nero', 'id');
+                    if (!is_wp_error($fid)) {
+                        set_post_thumbnail($eid, $fid);
+                        $new_gallery[] = $fid;
+                    }
+                }
+
+                // Frontale Silver.
+                if (!empty($product['front_url_2'])) {
+                    $f2id = media_sideload_image($product['front_url_2'], $eid, $product['title'] . ' — Silver', 'id');
+                    if (!is_wp_error($f2id)) {
+                        $new_gallery[] = $f2id;
+                    }
+                }
+
+                // Retro (solo se non già presente).
+                if (!empty($product['back_url'])) {
+                    // Controlla se il retro è già nella galleria attuale.
+                    $has_back = false;
+                    if (is_array($current_gallery)) {
+                        foreach ($current_gallery as $cid) {
+                            $cid = (int) $cid;
+                            if ($cid > 0 && !in_array($cid, $new_gallery, true)) {
+                                $new_gallery[] = $cid;
+                                $has_back = true;
+                            }
+                        }
+                    }
+                    if (!$has_back) {
+                        $bid = media_sideload_image($product['back_url'], $eid, $product['title'] . ' — Retro', 'id');
+                        if (!is_wp_error($bid)) {
+                            $new_gallery[] = $bid;
+                        }
+                    }
+                }
+
+                if (!empty($new_gallery)) {
+                    update_post_meta($eid, 'prodotto_galleria', $new_gallery);
+                    update_post_meta($eid, '_prodotto_galleria', 'field_prodotto_galleria');
+                }
+            }
+
             continue;
         }
 
@@ -1042,7 +1103,7 @@ function hifisolution_import_rotel() {
 
         // Salva la galleria completa.
         if (!empty($gallery_ids)) {
-            update_post_meta($post_id, 'prodotto_galleria', serialize($gallery_ids));
+            update_post_meta($post_id, 'prodotto_galleria', $gallery_ids);
             update_post_meta($post_id, '_prodotto_galleria', 'field_prodotto_galleria');
         }
 

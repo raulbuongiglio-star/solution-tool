@@ -21,9 +21,15 @@ $finiture      = '';
 if (function_exists('get_field')) {
     $sottotitolo = get_field('prodotto_sottotitolo');
     $finiture    = get_field('prodotto_finiture');
-} else {
+}
+
+// Fallback a get_post_meta se get_field non restituisce nulla
+// (campo non registrato in ACF ma salvato via update_post_meta).
+if (!$sottotitolo) {
     $sottotitolo = get_post_meta(get_the_ID(), 'prodotto_sottotitolo', true);
-    $finiture    = get_post_meta(get_the_ID(), 'prodotto_finiture', true);
+}
+if (!$finiture) {
+    $finiture = get_post_meta(get_the_ID(), 'prodotto_finiture', true);
 }
 ?>
 

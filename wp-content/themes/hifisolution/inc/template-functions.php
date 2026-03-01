@@ -87,83 +87,97 @@ function hifisolution_get_specs($post_id = null) {
 
 /**
  * Restituisce la galleria immagini di un prodotto.
+ *
+ * Raccoglie le immagini da più fonti nell'ordine:
+ * 1. Immagine in evidenza (featured / thumbnail)
+ * 2. Immagini dal campo prodotto_galleria (ACF o post_meta)
+ *
+ * L'immagine in evidenza è sempre la prima, senza duplicati.
  */
 function hifisolution_get_gallery($post_id = null) {
     if (!$post_id) {
         $post_id = get_the_ID();
     }
 
-    $images = array();
+    $seen_ids = array();
+    $images   = array();
+
+    // Helper: converte un attachment ID in array immagine.
+    $id_to_image = function ($img_id) use (&$seen_ids) {
+        $img_id = (int) $img_id;
+        if ($img_id <= 0 || isset($seen_ids[$img_id])) {
+            return null;
+        }
+        $url = wp_get_attachment_url($img_id);
+        if (!$url) {
+            return null;
+        }
+        $seen_ids[$img_id] = true;
+        return array(
+            'ID'    => $img_id,
+            'url'   => $url,
+            'sizes' => array(
+                'large'     => wp_get_attachment_image_url($img_id, 'large'),
+                'thumbnail' => wp_get_attachment_image_url($img_id, 'thumbnail'),
+            ),
+            'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
+        );
+    };
+
+    // 1. Immagine in evidenza — sempre prima.
+    if (has_post_thumbnail($post_id)) {
+        $thumb = $id_to_image(get_post_thumbnail_id($post_id));
+        if ($thumb) {
+            $images[] = $thumb;
+        }
+    }
+
+    // 2. Galleria da ACF (se disponibile).
+    $gallery_ids = array();
 
     if (function_exists('get_field')) {
-        $gallery = get_field('prodotto_galleria', $post_id);
+        $acf_gallery = get_field('prodotto_galleria', $post_id);
 
-        // get_field può restituire una stringa serializzata se i field group
-        // non sono registrati correttamente — deserializziamo manualmente.
-        if (is_string($gallery)) {
-            $gallery = maybe_unserialize($gallery);
+        if (is_string($acf_gallery)) {
+            $acf_gallery = maybe_unserialize($acf_gallery);
         }
 
-        // Se è un array di ID (non di array associativi), convertiamo.
-        if (is_array($gallery)) {
-            $normalized = array();
-            foreach ($gallery as $item) {
-                if (is_array($item) && isset($item['url'])) {
-                    $normalized[] = $item;
+        if (is_array($acf_gallery)) {
+            foreach ($acf_gallery as $item) {
+                if (is_array($item) && isset($item['ID'])) {
+                    $gallery_ids[] = (int) $item['ID'];
+                } elseif (is_array($item) && isset($item['url'])) {
+                    // ACF restituisce array associativo completo.
+                    if (!isset($seen_ids[$item['ID'] ?? 0])) {
+                        $seen_ids[$item['ID'] ?? 0] = true;
+                        $images[] = $item;
+                    }
                 } elseif (is_numeric($item)) {
-                    $img_id = (int) $item;
-                    $normalized[] = array(
-                        'ID'    => $img_id,
-                        'url'   => wp_get_attachment_url($img_id),
-                        'sizes' => array(
-                            'large'     => wp_get_attachment_image_url($img_id, 'large'),
-                            'thumbnail' => wp_get_attachment_image_url($img_id, 'thumbnail'),
-                        ),
-                        'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
-                    );
+                    $gallery_ids[] = (int) $item;
                 }
             }
-            if (!empty($normalized)) {
-                return $normalized;
-            }
         }
     }
 
-    // Fallback senza ACF: legge galleria da post_meta.
-    $gallery_meta = get_post_meta($post_id, 'prodotto_galleria', true);
-    if ($gallery_meta) {
-        $gallery_ids = maybe_unserialize($gallery_meta);
-        if (is_array($gallery_ids)) {
-            foreach ($gallery_ids as $img_id) {
-                $img_id = (int) $img_id;
-                $images[] = array(
-                    'ID'    => $img_id,
-                    'url'   => wp_get_attachment_url($img_id),
-                    'sizes' => array(
-                        'large'     => wp_get_attachment_image_url($img_id, 'large'),
-                        'thumbnail' => wp_get_attachment_image_url($img_id, 'thumbnail'),
-                    ),
-                    'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
-                );
-            }
-            if (!empty($images)) {
-                return $images;
-            }
+    // 3. Fallback: legge galleria da post_meta (valori salvati dall'import
+    //    o quando ACF non trova il campo registrato).
+    if (empty($gallery_ids)) {
+        $gallery_meta = get_post_meta($post_id, 'prodotto_galleria', true);
+        // Gestisce sia array nativi che stringhe serializzate (vecchio formato).
+        if (is_string($gallery_meta) && $gallery_meta) {
+            $gallery_meta = maybe_unserialize($gallery_meta);
+        }
+        if (is_array($gallery_meta)) {
+            $gallery_ids = $gallery_meta;
         }
     }
 
-    // Fallback finale: solo immagine in evidenza.
-    if (has_post_thumbnail($post_id)) {
-        $thumb_id = get_post_thumbnail_id($post_id);
-        $images[] = array(
-            'ID'    => $thumb_id,
-            'url'   => wp_get_attachment_url($thumb_id),
-            'sizes' => array(
-                'large'     => wp_get_attachment_image_url($thumb_id, 'large'),
-                'thumbnail' => wp_get_attachment_image_url($thumb_id, 'thumbnail'),
-            ),
-            'alt'   => get_post_meta($thumb_id, '_wp_attachment_image_alt', true),
-        );
+    // Converte gli ID in array immagine (salta duplicati con featured).
+    foreach ($gallery_ids as $gid) {
+        $img = $id_to_image($gid);
+        if ($img) {
+            $images[] = $img;
+        }
     }
 
     return $images;
