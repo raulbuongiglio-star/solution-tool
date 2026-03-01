@@ -50,6 +50,20 @@ $is_new     = hifisolution_is_new();
         <?php if ($price) : ?>
             <div class="hifi-product-card__price"><?php echo esc_html($price); ?></div>
         <?php endif; ?>
+
+        <?php
+        $card_finiture = get_post_meta(get_the_ID(), 'prodotto_finiture', true);
+        if ($card_finiture && strpos($card_finiture, ',') !== false) :
+            $fin_arr = array_map('trim', explode(',', $card_finiture));
+        ?>
+            <div class="hifi-product-card__finiture">
+                <?php foreach ($fin_arr as $fin) :
+                    $fin_slug = sanitize_title($fin);
+                ?>
+                    <span class="hifi-swatch hifi-swatch--sm swatch--<?php echo esc_attr($fin_slug); ?>"><?php echo esc_html($fin); ?></span>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="hifi-product-card__footer">

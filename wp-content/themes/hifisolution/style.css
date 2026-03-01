@@ -504,6 +504,23 @@ a:hover {
     margin-bottom: 16px;
 }
 
+.hifi-product-card__finiture {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.hifi-swatch--sm {
+    padding: 3px 10px;
+    font-size: 0.7rem;
+}
+
+.hifi-swatch--sm::before {
+    width: 10px;
+    height: 10px;
+}
+
 .hifi-product-card__footer {
     padding: 0 20px 20px;
     display: flex;
