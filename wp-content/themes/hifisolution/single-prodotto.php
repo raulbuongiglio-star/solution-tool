@@ -112,6 +112,22 @@ if (function_exists('get_field')) {
                         <?php endif; ?>
                     </div>
 
+                    <!-- Finiture disponibili -->
+                    <?php if ($finiture) : ?>
+                        <div class="hifi-product-single__finiture-box">
+                            <span class="hifi-product-single__finiture-label"><?php esc_html_e('Finiture disponibili:', 'hifisolution'); ?></span>
+                            <span class="hifi-product-single__finiture-values">
+                                <?php
+                                $fin_array = array_map('trim', explode(',', $finiture));
+                                foreach ($fin_array as $fin) :
+                                    $fin_class = strtolower($fin) === 'nero' ? 'swatch--nero' : 'swatch--silver';
+                                ?>
+                                    <span class="hifi-swatch <?php echo esc_attr($fin_class); ?>"><?php echo esc_html($fin); ?></span>
+                                <?php endforeach; ?>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+
                     <!-- CTA Acquista -->
                     <div class="hifi-product-single__cta">
                         <p><?php esc_html_e('Questo prodotto è disponibile nel nostro shop online', 'hifisolution'); ?></p>
@@ -128,12 +144,6 @@ if (function_exists('get_field')) {
                     <div class="hifi-product-single__description">
                         <h2><?php esc_html_e('Descrizione', 'hifisolution'); ?></h2>
                         <?php the_content(); ?>
-                        <?php if ($finiture) : ?>
-                            <p class="hifi-product-single__finiture">
-                                <strong><?php esc_html_e('Disponibile nelle finiture:', 'hifisolution'); ?></strong>
-                                <?php echo esc_html($finiture); ?>.
-                            </p>
-                        <?php endif; ?>
                     </div>
 
                     <!-- Specifiche Tecniche -->

@@ -336,12 +336,18 @@ function hifisolution_import_mcintosh() {
             update_post_meta($post_id, "_prodotto_specifiche_{$i}_specifica_valore", 'field_specifica_valore');
         }
 
-        // Immagine in evidenza.
+        // Immagine in evidenza + galleria.
+        $gallery_ids = array();
         if (!empty($product['image_url'])) {
             $image_id = media_sideload_image($product['image_url'], $post_id, $product['title'], 'id');
             if (!is_wp_error($image_id)) {
                 set_post_thumbnail($post_id, $image_id);
+                $gallery_ids[] = $image_id;
             }
+        }
+        if (!empty($gallery_ids)) {
+            update_post_meta($post_id, 'prodotto_galleria', serialize($gallery_ids));
+            update_post_meta($post_id, '_prodotto_galleria', 'field_prodotto_galleria');
         }
 
         $imported++;

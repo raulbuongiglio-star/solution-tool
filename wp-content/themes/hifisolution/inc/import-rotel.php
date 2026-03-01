@@ -57,6 +57,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RA-6000-black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RA-6000-silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RA-6000-back.jpg',
             'excerpt'   => 'Amplificatore integrato stereo da 200W per canale su 8 ohm con DAC 32-bit/384kHz, Bluetooth aptX HD e supporto MQA. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RA-6000</strong> celebra il 60esimo anniversario del marchio con 200W RMS su 8 ohm e 350W su 4 ohm, circuitazione dual-mono e stadio finale ad alta corrente. Il DAC Texas Instruments a 32-bit/384kHz, il supporto MQA e la certificazione Roon completano un amplificatore di riferimento per la Serie Diamond.</p>',
@@ -80,6 +81,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('sorgenti', 'lettori-cd-sacd'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-DT-6000-black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-DT-6000-silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-DT-6000-back.jpg',
             'excerpt'   => 'Lettore CD e DAC Serie Diamond con convertitore ESS Sabre ES9028PRO, supporto MQA e DSD nativo. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel DT-6000</strong> e il lettore CD e DAC della Serie Diamond per il 60esimo anniversario. Equipaggiato con DAC ESS Sabre ES9028PRO a 8 canali, supporta MQA, DSD nativo fino a 11.2MHz e risoluzioni PCM fino a 32-bit/384kHz. Vincitore del premio EISA High Stereo System 2022-2023.</p>',
@@ -241,6 +243,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => 'https://www.audiogamma.it/caricamenti/img_prodotti/rotel-RA-1572MKII.jpg',
+            'front_url_2' => $gallery_base . 'rotel-RA-1572MKII_silver.jpg',
             'back_url'  => $gallery_base . 'rotel-RA-1572MKII_03.jpg',
             'excerpt'   => 'Amplificatore integrato stereo da 120W per canale con DAC 32-bit/384kHz, Bluetooth aptX e ingresso phono MM. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RA-1572MKII</strong> eroga 120W per canale su 8 ohm e 200W su 4 ohm con trasformatore toroidale e circuitazione dual-mono. Il DAC audiofilo supporta fino a 32-bit/384kHz con MQA, Bluetooth aptX e certificazione Roon. Ingressi analogici e digitali completi con phono MM.</p>',
@@ -264,6 +267,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => 'https://www.audiogamma.it/caricamenti/img_prodotti/rotel-RA-1592MKII.jpg',
+            'front_url_2' => $gallery_base . 'rotel-RA-1592MKII_silver.jpg',
             'back_url'  => $gallery_base . 'rotel-RA-1592MKII_03.jpg',
             'excerpt'   => 'Amplificatore integrato stereo da 200W per canale con DAC Texas Instruments 32-bit/384kHz, Bluetooth aptX e certificazione Roon. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RA-1592MKII</strong> e il top della Serie RA con 200W su 8 ohm e 350W su 4 ohm, circuitazione dual-mono e DAC Texas Instruments a 32-bit/384kHz. Supporta MQA, Bluetooth aptX/AAC con Roon Ready. Headroom dinamico migliorato grazie al raddoppio della capacita di filtraggio.</p>',
@@ -288,6 +292,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-A8_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-A8_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-A8_back.jpg',
             'excerpt'   => 'Amplificatore integrato compatto da 30W per canale con ingresso phono MM, controlli di tono e uscita cuffia. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel A8</strong> e un amplificatore integrato compatto da 30W per canale su 8 ohm con stadio finale ad alta corrente e trasformatore toroidale. Offre 3 ingressi linea, ingresso phono MM, controlli di tono regolabili e uscita cuffia con telecomando incluso.</p>',
@@ -310,6 +315,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_A10_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_A10_s.jpg',
             'back_url'  => $gallery_base . 'rotel_A10_r.jpg',
             'excerpt'   => 'Amplificatore integrato da 40W per canale con 5 ingressi linea, phono MM e protezione elettronica diffusori. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel A10</strong> eroga 40W per canale su 8 ohm con stadio finale ad alta corrente e trasformatore toroidale. Cinque ingressi linea, ingresso phono MM, commutazione diffusori A/B/A+B e doppio trigger 12V completano un integrato versatile e compatto.</p>',
@@ -330,6 +336,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-A10MKII_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-A10MKII_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-A10MKII_back.jpg',
             'excerpt'   => 'Amplificatore integrato da 50W per canale con trasformatore toroidale, phono MM e uscita cuffia dedicata. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel A10MKII</strong> offre 50W per canale su 8 ohm con stadio finale ad alta corrente e trasformatore toroidale. Tre ingressi linea, ingresso phono MM, protezione elettronica e uscita cuffia dedicata con telecomando in dotazione.</p>',
@@ -374,6 +381,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-A11MKII_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-A11MKII_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-A11MKII_back.jpg',
             'excerpt'   => 'Amplificatore integrato da 50W per canale con DAC Texas Instruments 32-bit/384kHz, Bluetooth aptX HD e phono MM. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel A11MKII</strong> eroga 50W su 8 ohm e 62W su 4 ohm con DAC Texas Instruments 32-bit/384kHz. Ingressi digitali ottico e coassiale, Bluetooth aptX HD, 3 RCA, phono MM e controlli di tono \u00B16dB.</p>',
@@ -396,7 +404,8 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-A12MKII_black_01.jpg',
-            'back_url'  => $gallery_base . 'Rotel-A12MKII_silver_04.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-A12MKII_silver_01.jpg',
+            'back_url'  => $gallery_base . 'Rotel-A12MKII_back.jpg',
             'excerpt'   => 'Amplificatore integrato da 60W per canale con DAC Texas Instruments 32-bit/384kHz, Bluetooth aptX e certificazione Roon. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel A12MKII</strong> offre 60W per canale con DAC Texas Instruments 32-bit/384kHz, Bluetooth aptX e Roon Tested. Display LCD a 4 linee, 4 ingressi analogici, phono MM, 2 USB, 2 coassiali, 2 ottici e doppio trigger 12V.</p>',
             'specs'     => array(
@@ -417,6 +426,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel-A14MKII-black.jpg',
+            'front_url_2' => $gallery_base . 'rotel-A14MKII-silver.jpg',
             'back_url'  => $gallery_base . 'rotel-A14MKII-back.jpg',
             'excerpt'   => 'Amplificatore integrato da 80W per canale con DAC 32-bit/384kHz, Bluetooth aptX, MQA e certificazione Roon. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel A14MKII</strong> eroga 80W su 8 ohm e 150W su 4 ohm con DAC Texas Instruments 32-bit/384kHz. Supporta MQA, Bluetooth aptX e certificazione Roon con molteplici ingressi analogici e digitali e preamplificatore phono integrato.</p>',
@@ -441,6 +451,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'preamplificatori-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RC-1572MKII-Black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RC-1572MKII-Silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RC-1572MKII-Back.jpg',
             'excerpt'   => 'Preamplificatore stereo con DAC 32-bit/384kHz, Bluetooth aptX, Roon Ready e MQA. Ingressi phono MM e uscite XLR bilanciate. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RC-1572MKII</strong> e un preamplificatore stereo con convertitore D/A Texas Instruments a 32-bit/384kHz. Bluetooth aptX/AAC, Roon Ready, MQA, ingresso phono MM, 4 RCA, XLR, ingressi digitali e uscite bilanciate XLR completano un preamplificatore versatile.</p>',
@@ -462,6 +473,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'preamplificatori-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RC-1590MKII-Black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RC-1590MKII-Silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RC-1590MKII-Back.jpg',
             'excerpt'   => 'Preamplificatore stereo di riferimento con doppio trasformatore toroidale, DAC 32-bit/384kHz e Roon Ready. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RC-1590MKII</strong> e il preamplificatore di riferimento con convertitore D/A Texas Instruments 32-bit/384kHz e doppio trasformatore toroidale per sezioni analogica e digitale separate. Bluetooth aptX/AAC, Roon Ready, MQA e doppie uscite XLR bilanciate.</p>',
@@ -485,6 +497,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'finali-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_RB-1552-MKII_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_RB-1552-MKII_s.jpg',
             'back_url'  => $gallery_base . 'rotel_RB-1552-MKII_r.jpg',
             'excerpt'   => 'Finale stereo da 120W per canale con circuito Balanced Design in Classe A/B e configurazione dual-mono. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RB-1552 MKII</strong> eroga 120W per canale su 8 ohm con circuito Balanced Design in Classe A/B. Configurazione dual-mono, trasformatore toroidale e stadio di uscita ad alta corrente con ingressi XLR bilanciati e RCA.</p>',
@@ -505,6 +518,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'finali-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_RB-1582_MKII_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_RB-1582_MKII_s.jpg',
             'back_url'  => $gallery_base . 'rotel_RB-1582_MKII_r.jpg',
             'excerpt'   => 'Finale stereo da 200W per canale con condensatori Slit-Foil e costruzione dual-mono. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RB-1582 MKII</strong> eroga 200W per canale su 8 ohm con circuito Balanced Design in Classe A/B. Condensatori Slit-Foil, componenti selezionati, trasformatore toroidale e stadio di uscita ad alta corrente per prestazioni di riferimento.</p>',
@@ -525,6 +539,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'finali-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_RB-1590_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_RB-1590_s.jpg',
             'back_url'  => $gallery_base . 'Rotel-RB-1590_03.jpg',
             'excerpt'   => 'Finale stereo di riferimento da 350W per canale con doppio trasformatore toroidale e condensatori Slit-Foil da 80.000\u00B5F. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RB-1590</strong> e il finale stereo di riferimento con 350W per canale su 8 ohm. Doppio trasformatore toroidale, configurazione dual-mono, condensatori BHC Slit-Foil da 80.000\u00B5F, stadio di uscita ad alta corrente e doppi terminali di uscita per canale.</p>',
@@ -570,6 +585,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('sorgenti', 'lettori-cd-sacd'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-CD11MKII_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-CD11MKII_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-CD11MKII_back.jpg',
             'excerpt'   => 'Lettore CD con DAC Texas Instruments PCM5102A a 32-bit/384kHz e alimentatori indipendenti. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel CD11MKII</strong> e un lettore CD con meccanica di alta precisione e DAC Texas Instruments PCM5102A a 32-bit/384kHz. Alimentatori indipendenti per sezioni digitale e analogica, condensatori ultra-rapidi e filtri analogici custom.</p>',
@@ -592,6 +608,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('sorgenti', 'lettori-cd-sacd'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-CD14MKII_black_01.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-CD14MKII_silver_01.jpg',
             'back_url'  => $gallery_base . 'Rotel-CD14MKII_back.jpg',
             'excerpt'   => 'Lettore CD con DAC Texas Instruments Premium 32-bit/384kHz e meccanica motorizzata silenziosa. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel CD14MKII</strong> offre un DAC Texas Instruments serie Premium a 32-bit/384kHz con alimentatori indipendenti per circuiti digitali e analogici. Filtri analogici custom e meccanica motorizzata silenziosa per una riproduzione cristallina.</p>',
@@ -614,6 +631,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('sorgenti', 'lettori-cd-sacd'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RCD-1572MKII_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RCD-1572MKII_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RCD-1572MKII_02.jpg',
             'excerpt'   => 'Lettore CD con DAC Texas Instruments Premium 32-bit/384kHz, trasformatore toroidale e uscite bilanciate XLR. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RCD-1572MKII</strong> e il lettore CD di riferimento con DAC Texas Instruments Premium 32-bit/384kHz, trasformatore toroidale con alimentazioni isolate e uscite bilanciate XLR. Filtri analogici custom per la massima fedelta.</p>',
@@ -638,6 +656,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('sorgenti', 'sintonizzatori'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_T11_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_T11_s.jpg',
             'back_url'  => $gallery_base . 'rotel_T11_r.jpg',
             'excerpt'   => 'Sintonizzatore DAB+/FM stereo con RDS, 30 stazioni preselezionabili e display LCD a 4 linee. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel T11</strong> e un sintonizzatore DAB+/FM stereo con RDS e 30 stazioni preselezionabili. Stadi di uscita separati per analogico e digitale, alimentazioni indipendenti con componentistica selezionata e display grafico LCD a 4 linee.</p>',
@@ -660,6 +679,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RAS-5000_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RAS-5000_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RAS-5000_back.jpg',
             'excerpt'   => 'Amplificatore integrato da 140W per canale con streamer di rete, DAC ESS, AirPlay 2, Roon Ready e EISA Award. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RAS-5000</strong> e un amplificatore integrato all-in-one da 140W su 8 ohm e 220W su 4 ohm con streamer di rete. DAC ESS 32-bit/384kHz, WiFi, Ethernet, Bluetooth aptX HD, AirPlay 2, Google Cast e Roon Ready. Vincitore EISA Streaming Amplifier 2024-2025.</p>',
@@ -685,6 +705,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-S14_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-S14_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-S14_back.jpg',
             'excerpt'   => 'Amplificatore integrato da 80W per canale con streaming di rete, Bluetooth aptX HD, MQA e Roon Ready. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel S14</strong> offre 80W per canale su 8 ohm e 150W su 4 ohm con streaming di rete integrato. DAC ESS 32-bit, Bluetooth aptX HD, MQA e certificazione Roon Ready. Fattore di smorzamento di 400 per un controllo eccellente dei diffusori.</p>',
@@ -708,6 +729,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'preamplificatori-multicanale'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_RSP-1576MKII_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_RSP-1576MKII_s.jpg',
             'back_url'  => $gallery_base . 'rotel_RSP-1576MKII_r.jpg',
             'excerpt'   => 'Processore surround 7.1.4 con Dolby Atmos, DTS:X, Dirac Live e 7 ingressi HDMI 2.0b. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RSP-1576MKII</strong> e un processore multicanale 7.1.4 con Dolby Atmos, DTS:X e Dirac Live Full. Sei DAC Wolfson audio-grade, 7 HDMI 2.0b con HDCP 2.2, display TFT da 7 pollici e connettivita completa per sistemi home theater di riferimento.</p>',
@@ -773,6 +795,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'finali-multicanale'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'rotel_RMB-1555_k.jpg',
+            'front_url_2' => $gallery_base . 'rotel_RMB-1555_s.jpg',
             'back_url'  => $gallery_base . 'rotel_RMB-1555_r.jpg',
             'excerpt'   => 'Finale multicanale a 5 canali da 120W per canale con Balanced Design e trasformatore toroidale. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RMB-1555</strong> eroga 120W per canale su 5 canali in 8 ohm. Design Balanced Design in Classe A/B con trasformatore toroidale, stadi di uscita ad alta corrente e componenti selezionati.</p>',
@@ -794,6 +817,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'finali-multicanale'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RMB-1585MKII_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RMB-1585MKII_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RMB-1585MKII_back.jpg',
             'excerpt'   => 'Finale multicanale a 5 canali da 210W per canale con doppi trasformatori toroidali e funzione bi-amp. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RMB-1585MKII</strong> eroga 210W per canale su 5 canali in 8 ohm. Doppi trasformatori toroidali, 8 condensatori Slit-Foil, ingressi XLR e RCA con commutazione automatica e funzione bi-amp integrata.</p>',
@@ -818,6 +842,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'finali-multicanale'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel-RMB-1587MKII_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel-RMB-1587MKII_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel-RMB-1587MKII_back.jpg',
             'excerpt'   => 'Finale multicanale a 7 canali da 155W per canale con doppi trasformatori toroidali e ventole a velocita variabile. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel RMB-1587MKII</strong> eroga 155W per canale su 7 canali in 8 ohm e 250W su 4 ohm. Doppi trasformatori toroidali, ingressi XLR e RCA, ventole a velocita variabile e trigger 12V per integrazione home theater.</p>',
@@ -891,6 +916,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('cuffie', 'amplificatori-cuffie'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel_DX-3_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel_DX-3_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel_DX-3_back.jpg',
             'excerpt'   => 'Amplificatore per cuffie, DAC e preamplificatore con ESS Sabre 9028PRO, uscite bilanciate e sbilanciate. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel DX3</strong> e un amplificatore per cuffie, DAC e preamplificatore compatto con DAC ESS Sabre 9028PRO. Supporta PCM 32-bit/384kHz e DSD 4x con ingressi USB, coassiale e ottico. Uscite cuffia bilanciate e sbilanciate per qualsiasi tipo di cuffia.</p>',
@@ -915,6 +941,7 @@ function hifisolution_import_rotel() {
             'cats'      => array('amplificazioni', 'integrati-stereo'),
             'finiture'  => 'Nero, Silver',
             'front_url' => $gallery_base . 'Rotel_DX-5_black.jpg',
+            'front_url_2' => $gallery_base . 'Rotel_DX-5_silver.jpg',
             'back_url'  => $gallery_base . 'Rotel_DX-5_back.jpg',
             'excerpt'   => 'Amplificatore integrato compatto da 25W per canale con DAC ESS Sabre, Bluetooth aptX HD e HDMI ARC. Disponibile in finitura Nero e Silver.',
             'content'   => '<p>Il <strong>Rotel DX5</strong> e un amplificatore integrato compatto da 25W su 8 ohm e 33W su 4 ohm con DAC ESS Sabre ES9039Q2M. Bluetooth aptX HD, HDMI ARC, ingressi USB, coassiale e ottico con uscita subwoofer dedicata.</p>',
@@ -982,21 +1009,41 @@ function hifisolution_import_rotel() {
             update_post_meta($post_id, "_prodotto_specifiche_{$i}_specifica_valore", 'field_specifica_valore');
         }
 
-        // Immagine frontale (featured image).
+        // ---------- GALLERIA IMMAGINI (3 foto) ----------
+        // 1. Frontale finitura Nero (featured + gallery)
+        // 2. Frontale finitura Silver (gallery, se disponibile)
+        // 3. Retro (gallery)
+        $gallery_ids = array();
+
+        // 1. Immagine frontale (finitura Nero).
         if (!empty($product['front_url'])) {
-            $image_id = media_sideload_image($product['front_url'], $post_id, $product['title'], 'id');
-            if (!is_wp_error($image_id)) {
-                set_post_thumbnail($post_id, $image_id);
+            $front_id = media_sideload_image($product['front_url'], $post_id, $product['title'] . ' — Nero', 'id');
+            if (!is_wp_error($front_id)) {
+                set_post_thumbnail($post_id, $front_id);
+                $gallery_ids[] = $front_id;
             }
         }
 
-        // Immagine posteriore (gallery ACF).
-        if (!empty($product['back_url'])) {
-            $back_id = media_sideload_image($product['back_url'], $post_id, $product['title'] . ' Retro', 'id');
-            if (!is_wp_error($back_id)) {
-                update_post_meta($post_id, 'prodotto_galleria', serialize(array($back_id)));
-                update_post_meta($post_id, '_prodotto_galleria', 'field_prodotto_galleria');
+        // 2. Immagine frontale Silver (se doppia finitura).
+        if (!empty($product['front_url_2'])) {
+            $front2_id = media_sideload_image($product['front_url_2'], $post_id, $product['title'] . ' — Silver', 'id');
+            if (!is_wp_error($front2_id)) {
+                $gallery_ids[] = $front2_id;
             }
+        }
+
+        // 3. Immagine retro.
+        if (!empty($product['back_url'])) {
+            $back_id = media_sideload_image($product['back_url'], $post_id, $product['title'] . ' — Retro', 'id');
+            if (!is_wp_error($back_id)) {
+                $gallery_ids[] = $back_id;
+            }
+        }
+
+        // Salva la galleria completa.
+        if (!empty($gallery_ids)) {
+            update_post_meta($post_id, 'prodotto_galleria', serialize($gallery_ids));
+            update_post_meta($post_id, '_prodotto_galleria', 'field_prodotto_galleria');
         }
 
         $imported++;

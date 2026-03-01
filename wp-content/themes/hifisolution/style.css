@@ -619,20 +619,69 @@ a:hover {
     margin: 32px 0 16px;
 }
 
-.hifi-product-single__finiture {
-    margin-top: 20px;
+.hifi-product-single__finiture-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
     padding: 16px 20px;
     background-color: var(--hifi-bg-card);
-    border-left: 3px solid var(--hifi-accent);
+    border: 1px solid var(--hifi-border);
     border-radius: var(--hifi-radius);
-    color: var(--hifi-text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.6;
 }
 
-.hifi-product-single__finiture strong {
-    color: var(--hifi-text-primary);
-    margin-right: 4px;
+.hifi-product-single__finiture-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--hifi-text-secondary);
+    white-space: nowrap;
+}
+
+.hifi-product-single__finiture-values {
+    display: flex;
+    gap: 8px;
+}
+
+.hifi-swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.hifi-swatch::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.hifi-swatch.swatch--nero {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.hifi-swatch.swatch--nero::before {
+    background-color: #333;
+    border-color: #555;
+}
+
+.hifi-swatch.swatch--silver {
+    background-color: #e8e8e8;
+    color: #333;
+}
+
+.hifi-swatch.swatch--silver::before {
+    background-color: #c0c0c0;
+    border-color: #aaa;
 }
 
 .hifi-product-single__cta {
