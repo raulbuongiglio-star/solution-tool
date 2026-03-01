@@ -126,7 +126,8 @@ if (!$finiture) {
                                 <?php
                                 $fin_array = array_map('trim', explode(',', $finiture));
                                 foreach ($fin_array as $fin) :
-                                    $fin_class = strtolower($fin) === 'nero' ? 'swatch--nero' : 'swatch--silver';
+                                    $fin_slug  = sanitize_title($fin);
+                                    $fin_class = 'swatch--' . $fin_slug;
                                 ?>
                                     <span class="hifi-swatch <?php echo esc_attr($fin_class); ?>"><?php echo esc_html($fin); ?></span>
                                 <?php endforeach; ?>

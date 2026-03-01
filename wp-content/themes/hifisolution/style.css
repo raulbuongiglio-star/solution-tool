@@ -653,6 +653,8 @@ a:hover {
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.5px;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
 .hifi-swatch::before {
@@ -662,24 +664,30 @@ a:hover {
     height: 14px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.2);
+    background-color: #ccc;
+    border-color: #aaa;
 }
 
-.hifi-swatch.swatch--nero {
+.hifi-swatch.swatch--nero,
+.hifi-swatch.swatch--black {
     background-color: #1a1a1a;
     color: #e0e0e0;
 }
 
-.hifi-swatch.swatch--nero::before {
+.hifi-swatch.swatch--nero::before,
+.hifi-swatch.swatch--black::before {
     background-color: #333;
     border-color: #555;
 }
 
-.hifi-swatch.swatch--silver {
+.hifi-swatch.swatch--silver,
+.hifi-swatch.swatch--argento {
     background-color: #e8e8e8;
     color: #333;
 }
 
-.hifi-swatch.swatch--silver::before {
+.hifi-swatch.swatch--silver::before,
+.hifi-swatch.swatch--argento::before {
     background-color: #c0c0c0;
     border-color: #aaa;
 }
