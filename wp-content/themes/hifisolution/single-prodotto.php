@@ -9,14 +9,15 @@ defined('ABSPATH') || exit;
 
 get_header();
 
-$brand_name    = hifisolution_get_brand_name();
-$category_name = hifisolution_get_category_name();
-$shop_url      = hifisolution_get_shop_url();
-$price         = hifisolution_get_price();
-$specs         = hifisolution_get_specs();
-$gallery       = hifisolution_get_gallery();
-$sottotitolo   = '';
-$finiture      = '';
+$brand_name      = hifisolution_get_brand_name();
+$category_name   = hifisolution_get_category_name();
+$shop_url        = hifisolution_get_shop_url();
+$price           = hifisolution_get_price();
+$specs           = hifisolution_get_specs();
+$variant_images  = hifisolution_get_variant_images();
+$gallery         = hifisolution_get_gallery();
+$sottotitolo     = '';
+$finiture        = '';
 
 if (function_exists('get_field')) {
     $sottotitolo = get_field('prodotto_sottotitolo');
@@ -43,7 +44,72 @@ if (!$finiture) {
 
                 <!-- ===== GALLERIA IMMAGINI ===== -->
                 <div class="hifi-product-single__gallery">
-                    <?php if (!empty($gallery)) : ?>
+                    <?php if (!empty($variant_images)) :
+                        // Galleria con varianti colore: fronte colore 1, fronte colore 2, retro.
+                        $first_variant = $variant_images['variants'][0];
+                        $first_img     = $first_variant['image'];
+                        $rear_img      = $variant_images['rear'];
+                    ?>
+                        <div class="hifi-product-single__main-image" id="hifi-main-image">
+                            <img src="<?php echo esc_url($first_img['sizes']['large'] ?? $first_img['url']); ?>"
+                                 alt="<?php echo esc_attr(get_the_title() . ' — ' . $first_variant['name']); ?>"
+                                 id="hifi-gallery-main">
+                        </div>
+
+                        <!-- Swatch varianti colore -->
+                        <?php if (count($variant_images['variants']) > 1) : ?>
+                            <div class="hifi-variant-swatches">
+                                <span class="hifi-variant-swatches__label"><?php esc_html_e('Colore:', 'hifisolution'); ?></span>
+                                <?php foreach ($variant_images['variants'] as $vi => $variant) :
+                                    $v_img = $variant['image'];
+                                    $swatch_class = 'swatch--' . sanitize_html_class(strtolower($variant['name']));
+                                ?>
+                                    <button class="hifi-variant-swatch <?php echo $vi === 0 ? 'active' : ''; ?> <?php echo esc_attr($swatch_class); ?>"
+                                            data-variant-index="<?php echo esc_attr($vi); ?>"
+                                            data-full="<?php echo esc_url($v_img['sizes']['large'] ?? $v_img['url']); ?>"
+                                            data-alt="<?php echo esc_attr(get_the_title() . ' — ' . $variant['name']); ?>"
+                                            title="<?php echo esc_attr($variant['name']); ?>">
+                                        <?php echo esc_html($variant['name']); ?>
+                                    </button>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- Thumbnails: fronte di ogni colore + retro -->
+                        <div class="hifi-product-single__thumbnails">
+                            <?php
+                            $thumb_index = 0;
+                            foreach ($variant_images['variants'] as $vi => $variant) :
+                                $v_img = $variant['image'];
+                            ?>
+                                <button class="hifi-product-single__thumb <?php echo $thumb_index === 0 ? 'active' : ''; ?>"
+                                        data-full="<?php echo esc_url($v_img['sizes']['large'] ?? $v_img['url']); ?>"
+                                        data-alt="<?php echo esc_attr(get_the_title() . ' — ' . $variant['name'] . ' (Fronte)'); ?>"
+                                        data-variant-index="<?php echo esc_attr($vi); ?>">
+                                    <img src="<?php echo esc_url($v_img['sizes']['thumbnail'] ?? $v_img['url']); ?>"
+                                         alt="<?php echo esc_attr(get_the_title() . ' ' . $variant['name'] . ' fronte'); ?>"
+                                         loading="lazy">
+                                    <span class="hifi-thumb-label"><?php echo esc_html($variant['name']); ?></span>
+                                </button>
+                            <?php
+                                $thumb_index++;
+                            endforeach;
+
+                            if ($rear_img) :
+                            ?>
+                                <button class="hifi-product-single__thumb"
+                                        data-full="<?php echo esc_url($rear_img['sizes']['large'] ?? $rear_img['url']); ?>"
+                                        data-alt="<?php echo esc_attr(get_the_title() . ' — Retro'); ?>">
+                                    <img src="<?php echo esc_url($rear_img['sizes']['thumbnail'] ?? $rear_img['url']); ?>"
+                                         alt="<?php echo esc_attr(get_the_title() . ' retro'); ?>"
+                                         loading="lazy">
+                                    <span class="hifi-thumb-label"><?php esc_html_e('Retro', 'hifisolution'); ?></span>
+                                </button>
+                            <?php endif; ?>
+                        </div>
+
+                    <?php elseif (!empty($gallery)) : ?>
+                        <!-- Fallback: galleria generica -->
                         <div class="hifi-product-single__main-image" id="hifi-main-image">
                             <img src="<?php echo esc_url($gallery[0]['sizes']['large'] ?? $gallery[0]['url']); ?>"
                                  alt="<?php echo esc_attr(get_the_title() . ' — ' . $brand_name); ?>"
@@ -118,8 +184,25 @@ if (!$finiture) {
                         <?php endif; ?>
                     </div>
 
-                    <!-- Finiture disponibili -->
-                    <?php if ($finiture) : ?>
+                    <!-- Finiture / Varianti colore disponibili -->
+                    <?php if (!empty($variant_images) && count($variant_images['variants']) > 1) : ?>
+                        <div class="hifi-product-single__finiture-box">
+                            <span class="hifi-product-single__finiture-label"><?php esc_html_e('Finiture disponibili:', 'hifisolution'); ?></span>
+                            <span class="hifi-product-single__finiture-values">
+                                <?php foreach ($variant_images['variants'] as $vi => $variant) :
+                                    $fin_lower = strtolower($variant['name']);
+                                    $fin_class = 'swatch--' . sanitize_html_class($fin_lower);
+                                ?>
+                                    <button class="hifi-swatch hifi-swatch--clickable <?php echo esc_attr($fin_class); ?> <?php echo $vi === 0 ? 'active' : ''; ?>"
+                                            data-variant-index="<?php echo esc_attr($vi); ?>"
+                                            data-full="<?php echo esc_url($variant['image']['sizes']['large'] ?? $variant['image']['url']); ?>"
+                                            data-alt="<?php echo esc_attr(get_the_title() . ' — ' . $variant['name']); ?>">
+                                        <?php echo esc_html($variant['name']); ?>
+                                    </button>
+                                <?php endforeach; ?>
+                            </span>
+                        </div>
+                    <?php elseif ($finiture) : ?>
                         <div class="hifi-product-single__finiture-box">
                             <span class="hifi-product-single__finiture-label"><?php esc_html_e('Finiture disponibili:', 'hifisolution'); ?></span>
                             <span class="hifi-product-single__finiture-values">

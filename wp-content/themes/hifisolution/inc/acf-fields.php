@@ -84,6 +84,68 @@ function hifisolution_register_acf_fields() {
         'menu_order'        => 0,
     ));
 
+    // ---- Gruppo: Immagini Varianti Colore ----
+    acf_add_local_field_group(array(
+        'key'    => 'group_prodotto_varianti_immagini',
+        'title'  => __('Immagini Varianti Colore', 'hifisolution'),
+        'fields' => array(
+            array(
+                'key'          => 'field_prodotto_varianti_colore',
+                'label'        => __('Varianti Colore', 'hifisolution'),
+                'name'         => 'prodotto_varianti_colore',
+                'type'         => 'repeater',
+                'instructions' => __('Aggiungi una variante per ogni colore disponibile. Per ciascuna, carica l\'immagine frontale del prodotto in quel colore.', 'hifisolution'),
+                'layout'       => 'block',
+                'button_label' => __('Aggiungi Variante Colore', 'hifisolution'),
+                'min'          => 0,
+                'max'          => 10,
+                'sub_fields'   => array(
+                    array(
+                        'key'          => 'field_variante_nome',
+                        'label'        => __('Nome Colore', 'hifisolution'),
+                        'name'         => 'variante_nome',
+                        'type'         => 'text',
+                        'instructions' => __('Es. "Nero", "Silver", "Rosenut"', 'hifisolution'),
+                        'required'     => 1,
+                    ),
+                    array(
+                        'key'          => 'field_variante_immagine_fronte',
+                        'label'        => __('Immagine Frontale', 'hifisolution'),
+                        'name'         => 'variante_immagine_fronte',
+                        'type'         => 'image',
+                        'instructions' => __('Immagine del prodotto visto da davanti in questo colore.', 'hifisolution'),
+                        'return_format' => 'array',
+                        'preview_size'  => 'medium',
+                        'library'       => 'all',
+                        'required'     => 1,
+                    ),
+                ),
+            ),
+            array(
+                'key'          => 'field_prodotto_immagine_retro',
+                'label'        => __('Immagine Retro', 'hifisolution'),
+                'name'         => 'prodotto_immagine_retro',
+                'type'         => 'image',
+                'instructions' => __('Immagine del retro del prodotto (comune a tutte le varianti colore).', 'hifisolution'),
+                'return_format' => 'array',
+                'preview_size'  => 'medium',
+                'library'       => 'all',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param'    => 'post_type',
+                    'operator' => '==',
+                    'value'    => 'prodotto',
+                ),
+            ),
+        ),
+        'position'  => 'normal',
+        'style'     => 'default',
+        'menu_order' => 1,
+    ));
+
     // ---- Gruppo: Galleria Immagini Prodotto ----
     acf_add_local_field_group(array(
         'key'    => 'group_prodotto_galleria',
@@ -94,7 +156,7 @@ function hifisolution_register_acf_fields() {
                 'label'        => __('Immagini Prodotto', 'hifisolution'),
                 'name'         => 'prodotto_galleria',
                 'type'         => 'gallery',
-                'instructions' => __('Carica le immagini del prodotto. La prima sarà usata come immagine principale se non è impostata l\'immagine in evidenza.', 'hifisolution'),
+                'instructions' => __('Galleria aggiuntiva (usata come fallback se non ci sono varianti colore). La prima sarà usata come immagine principale se non è impostata l\'immagine in evidenza.', 'hifisolution'),
                 'return_format' => 'array',
                 'preview_size'  => 'medium',
                 'library'       => 'all',
@@ -113,7 +175,7 @@ function hifisolution_register_acf_fields() {
         ),
         'position'  => 'normal',
         'style'     => 'default',
-        'menu_order' => 1,
+        'menu_order' => 2,
     ));
 
     // ---- Gruppo: Specifiche Tecniche ----
@@ -156,7 +218,7 @@ function hifisolution_register_acf_fields() {
         ),
         'position'   => 'normal',
         'style'      => 'default',
-        'menu_order'  => 2,
+        'menu_order'  => 3,
     ));
 
     // ---- Gruppo: SEO Prodotto ----
@@ -193,7 +255,7 @@ function hifisolution_register_acf_fields() {
         ),
         'position'   => 'side',
         'style'      => 'default',
-        'menu_order'  => 3,
+        'menu_order'  => 4,
     ));
 
     // ---- Gruppo: Dettagli Brand Page ----
@@ -280,6 +342,15 @@ function hifisolution_add_native_metaboxes() {
         'hifi_prodotto_dettagli',
         __('Dettagli Prodotto', 'hifisolution'),
         'hifisolution_prodotto_metabox_callback',
+        'prodotto',
+        'normal',
+        'high'
+    );
+
+    add_meta_box(
+        'hifi_prodotto_varianti',
+        __('Immagini Varianti Colore', 'hifisolution'),
+        'hifisolution_prodotto_varianti_callback',
         'prodotto',
         'normal',
         'high'
@@ -413,6 +484,137 @@ function hifisolution_prodotto_galleria_callback($post) {
 }
 
 /**
+ * Callback per il meta box Immagini Varianti Colore (nativo).
+ */
+function hifisolution_prodotto_varianti_callback($post) {
+    $count = (int) get_post_meta($post->ID, 'prodotto_varianti_colore', true);
+    $variants = array();
+    for ($i = 0; $i < $count; $i++) {
+        $name   = get_post_meta($post->ID, "prodotto_varianti_colore_{$i}_variante_nome", true);
+        $img_id = (int) get_post_meta($post->ID, "prodotto_varianti_colore_{$i}_variante_immagine_fronte", true);
+        $variants[] = array('name' => $name, 'img_id' => $img_id);
+    }
+    $rear_id = (int) get_post_meta($post->ID, 'prodotto_immagine_retro', true);
+    ?>
+    <p class="description" style="margin-bottom:12px;">
+        <?php esc_html_e('Aggiungi una variante per ogni colore disponibile con la relativa immagine frontale. Puoi anche aggiungere un\'immagine del retro comune a tutte le varianti.', 'hifisolution'); ?>
+    </p>
+
+    <table id="hifi-variants-table" style="width:100%; border-collapse:collapse; margin-bottom:16px;">
+        <thead>
+            <tr>
+                <th style="text-align:left; padding:6px;"><?php esc_html_e('Nome Colore', 'hifisolution'); ?></th>
+                <th style="text-align:left; padding:6px;"><?php esc_html_e('Immagine Frontale', 'hifisolution'); ?></th>
+                <th style="width:40px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($variants)) : foreach ($variants as $vi => $variant) :
+                $thumb_url = $variant['img_id'] ? wp_get_attachment_image_url($variant['img_id'], 'thumbnail') : '';
+            ?>
+                <tr>
+                    <td style="padding:4px;">
+                        <input type="text" name="hifi_variante_nome[]" value="<?php echo esc_attr($variant['name']); ?>" class="regular-text" style="width:100%;" placeholder="<?php esc_attr_e('Es. Nero, Silver...', 'hifisolution'); ?>">
+                    </td>
+                    <td style="padding:4px;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <?php if ($thumb_url) : ?>
+                                <img src="<?php echo esc_url($thumb_url); ?>" class="hifi-variant-preview" style="width:60px; height:60px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+                            <?php else : ?>
+                                <img src="" class="hifi-variant-preview" style="width:60px; height:60px; object-fit:cover; border:1px solid #ddd; border-radius:4px; display:none;">
+                            <?php endif; ?>
+                            <input type="hidden" name="hifi_variante_img[]" value="<?php echo esc_attr($variant['img_id']); ?>" class="hifi-variant-img-id">
+                            <button type="button" class="button hifi-variant-select-img"><?php esc_html_e('Seleziona', 'hifisolution'); ?></button>
+                        </div>
+                    </td>
+                    <td style="padding:4px;"><button type="button" class="button hifi-variant-remove">&times;</button></td>
+                </tr>
+            <?php endforeach; endif; ?>
+        </tbody>
+    </table>
+    <p><button type="button" id="hifi-variant-add" class="button"><?php esc_html_e('Aggiungi Variante Colore', 'hifisolution'); ?></button></p>
+
+    <hr style="margin:20px 0;">
+    <h4 style="margin-bottom:8px;"><?php esc_html_e('Immagine Retro (comune)', 'hifisolution'); ?></h4>
+    <div style="display:flex; align-items:center; gap:12px;">
+        <?php
+        $rear_thumb = $rear_id ? wp_get_attachment_image_url($rear_id, 'thumbnail') : '';
+        ?>
+        <?php if ($rear_thumb) : ?>
+            <img src="<?php echo esc_url($rear_thumb); ?>" id="hifi-rear-preview" style="width:80px; height:80px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+        <?php else : ?>
+            <img src="" id="hifi-rear-preview" style="width:80px; height:80px; object-fit:cover; border:1px solid #ddd; border-radius:4px; display:none;">
+        <?php endif; ?>
+        <input type="hidden" name="hifi_retro_img" id="hifi-retro-img-id" value="<?php echo esc_attr($rear_id); ?>">
+        <button type="button" id="hifi-rear-select" class="button"><?php esc_html_e('Seleziona immagine retro', 'hifisolution'); ?></button>
+        <?php if ($rear_id) : ?>
+            <button type="button" id="hifi-rear-remove" class="button">&times;</button>
+        <?php else : ?>
+            <button type="button" id="hifi-rear-remove" class="button" style="display:none;">&times;</button>
+        <?php endif; ?>
+    </div>
+
+    <script>
+    jQuery(function($){
+        // Aggiungi variante
+        $('#hifi-variant-add').on('click', function(){
+            var row = '<tr>' +
+                '<td style="padding:4px;"><input type="text" name="hifi_variante_nome[]" value="" class="regular-text" style="width:100%;" placeholder="<?php echo esc_js(__('Es. Nero, Silver...', 'hifisolution')); ?>"></td>' +
+                '<td style="padding:4px;"><div style="display:flex; align-items:center; gap:8px;">' +
+                '<img src="" class="hifi-variant-preview" style="width:60px; height:60px; object-fit:cover; border:1px solid #ddd; border-radius:4px; display:none;">' +
+                '<input type="hidden" name="hifi_variante_img[]" value="" class="hifi-variant-img-id">' +
+                '<button type="button" class="button hifi-variant-select-img"><?php echo esc_js(__('Seleziona', 'hifisolution')); ?></button>' +
+                '</div></td>' +
+                '<td style="padding:4px;"><button type="button" class="button hifi-variant-remove">&times;</button></td>' +
+                '</tr>';
+            $('#hifi-variants-table tbody').append(row);
+        });
+
+        // Rimuovi variante
+        $(document).on('click', '.hifi-variant-remove', function(){
+            $(this).closest('tr').remove();
+        });
+
+        // Seleziona immagine variante
+        $(document).on('click', '.hifi-variant-select-img', function(e){
+            e.preventDefault();
+            var btn = $(this);
+            var frame = wp.media({ title: '<?php echo esc_js(__('Seleziona immagine frontale', 'hifisolution')); ?>', multiple: false, library: { type: 'image' } });
+            frame.on('select', function(){
+                var att = frame.state().get('selection').first().toJSON();
+                var thumb = att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url;
+                btn.siblings('.hifi-variant-img-id').val(att.id);
+                btn.siblings('.hifi-variant-preview').attr('src', thumb).show();
+            });
+            frame.open();
+        });
+
+        // Seleziona immagine retro
+        $('#hifi-rear-select').on('click', function(e){
+            e.preventDefault();
+            var frame = wp.media({ title: '<?php echo esc_js(__('Seleziona immagine retro', 'hifisolution')); ?>', multiple: false, library: { type: 'image' } });
+            frame.on('select', function(){
+                var att = frame.state().get('selection').first().toJSON();
+                var thumb = att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url;
+                $('#hifi-retro-img-id').val(att.id);
+                $('#hifi-rear-preview').attr('src', thumb).show();
+                $('#hifi-rear-remove').show();
+            });
+            frame.open();
+        });
+
+        // Rimuovi immagine retro
+        $('#hifi-rear-remove').on('click', function(){
+            $('#hifi-retro-img-id').val('');
+            $('#hifi-rear-preview').hide();
+            $(this).hide();
+        });
+    });
+    </script>
+    <?php
+}
+
+/**
  * Callback per il meta box Specifiche Tecniche (nativo).
  */
 function hifisolution_prodotto_specifiche_callback($post) {
@@ -498,6 +700,35 @@ function hifisolution_save_prodotto_meta($post_id) {
 
     $novita = isset($_POST['prodotto_novita']) ? '1' : '0';
     update_post_meta($post_id, 'prodotto_novita', $novita);
+
+    // Varianti colore.
+    $old_variant_count = (int) get_post_meta($post_id, 'prodotto_varianti_colore', true);
+    for ($i = 0; $i < $old_variant_count; $i++) {
+        delete_post_meta($post_id, "prodotto_varianti_colore_{$i}_variante_nome");
+        delete_post_meta($post_id, "prodotto_varianti_colore_{$i}_variante_immagine_fronte");
+    }
+
+    if (isset($_POST['hifi_variante_nome']) && is_array($_POST['hifi_variante_nome'])) {
+        $var_names = array_map('sanitize_text_field', wp_unslash($_POST['hifi_variante_nome']));
+        $var_imgs  = isset($_POST['hifi_variante_img']) ? array_map('absint', $_POST['hifi_variante_img']) : array();
+        $var_index = 0;
+        foreach ($var_names as $k => $vname) {
+            if (empty($vname) || empty($var_imgs[$k])) continue;
+            update_post_meta($post_id, "prodotto_varianti_colore_{$var_index}_variante_nome", $vname);
+            update_post_meta($post_id, "prodotto_varianti_colore_{$var_index}_variante_immagine_fronte", $var_imgs[$k]);
+            $var_index++;
+        }
+        update_post_meta($post_id, 'prodotto_varianti_colore', $var_index);
+    } else {
+        update_post_meta($post_id, 'prodotto_varianti_colore', 0);
+    }
+
+    // Immagine retro.
+    if (isset($_POST['hifi_retro_img']) && absint($_POST['hifi_retro_img']) > 0) {
+        update_post_meta($post_id, 'prodotto_immagine_retro', absint($_POST['hifi_retro_img']));
+    } else {
+        delete_post_meta($post_id, 'prodotto_immagine_retro');
+    }
 
     // Galleria immagini.
     if (isset($_POST['prodotto_galleria'])) {

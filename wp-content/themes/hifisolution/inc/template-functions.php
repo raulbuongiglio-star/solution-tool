@@ -184,6 +184,121 @@ function hifisolution_get_gallery($post_id = null) {
 }
 
 /**
+ * Restituisce le immagini delle varianti colore di un prodotto.
+ *
+ * Struttura restituita:
+ * array(
+ *     'variants' => array(
+ *         array( 'name' => 'Nero', 'image' => array( 'url' => ..., 'sizes' => ..., 'alt' => ... ) ),
+ *         array( 'name' => 'Silver', 'image' => array( ... ) ),
+ *     ),
+ *     'rear' => array( 'url' => ..., 'sizes' => ..., 'alt' => ... ) | null,
+ * )
+ *
+ * Restituisce null se non ci sono varianti configurate.
+ */
+function hifisolution_get_variant_images($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+
+    $variants = array();
+    $rear     = null;
+
+    // Helper: converte un attachment ID in array immagine.
+    $id_to_image = function ($img_id) {
+        $img_id = (int) $img_id;
+        if ($img_id <= 0) {
+            return null;
+        }
+        $url = wp_get_attachment_url($img_id);
+        if (!$url) {
+            return null;
+        }
+        return array(
+            'ID'    => $img_id,
+            'url'   => $url,
+            'sizes' => array(
+                'large'     => wp_get_attachment_image_url($img_id, 'large'),
+                'thumbnail' => wp_get_attachment_image_url($img_id, 'thumbnail'),
+            ),
+            'alt' => get_post_meta($img_id, '_wp_attachment_image_alt', true),
+        );
+    };
+
+    if (function_exists('get_field')) {
+        $acf_variants = get_field('prodotto_varianti_colore', $post_id);
+        if (is_array($acf_variants) && !empty($acf_variants)) {
+            foreach ($acf_variants as $row) {
+                $name = isset($row['variante_nome']) ? trim($row['variante_nome']) : '';
+                $img  = isset($row['variante_immagine_fronte']) ? $row['variante_immagine_fronte'] : null;
+
+                if (!$name || !$img) {
+                    continue;
+                }
+
+                // ACF può restituire array completo o solo ID.
+                if (is_array($img) && isset($img['url'])) {
+                    $image_data = $img;
+                } elseif (is_numeric($img)) {
+                    $image_data = $id_to_image((int) $img);
+                } else {
+                    continue;
+                }
+
+                if ($image_data) {
+                    $variants[] = array(
+                        'name'  => $name,
+                        'image' => $image_data,
+                    );
+                }
+            }
+        }
+
+        $acf_rear = get_field('prodotto_immagine_retro', $post_id);
+        if ($acf_rear) {
+            if (is_array($acf_rear) && isset($acf_rear['url'])) {
+                $rear = $acf_rear;
+            } elseif (is_numeric($acf_rear)) {
+                $rear = $id_to_image((int) $acf_rear);
+            }
+        }
+    }
+
+    // Fallback senza ACF: legge da post_meta.
+    if (empty($variants)) {
+        $count = (int) get_post_meta($post_id, 'prodotto_varianti_colore', true);
+        for ($i = 0; $i < $count; $i++) {
+            $name   = get_post_meta($post_id, "prodotto_varianti_colore_{$i}_variante_nome", true);
+            $img_id = (int) get_post_meta($post_id, "prodotto_varianti_colore_{$i}_variante_immagine_fronte", true);
+            if ($name && $img_id) {
+                $image_data = $id_to_image($img_id);
+                if ($image_data) {
+                    $variants[] = array(
+                        'name'  => $name,
+                        'image' => $image_data,
+                    );
+                }
+            }
+        }
+
+        $rear_id = (int) get_post_meta($post_id, 'prodotto_immagine_retro', true);
+        if ($rear_id) {
+            $rear = $id_to_image($rear_id);
+        }
+    }
+
+    if (empty($variants)) {
+        return null;
+    }
+
+    return array(
+        'variants' => $variants,
+        'rear'     => $rear,
+    );
+}
+
+/**
  * Restituisce il nome del brand di un prodotto.
  */
 function hifisolution_get_brand_name($post_id = null) {
