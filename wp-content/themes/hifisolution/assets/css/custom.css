@@ -30,6 +30,25 @@
     color: var(--hifi-accent);
 }
 
+/* --- Logo Image --- */
+.hifi-header__logo-img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.hifi-footer__logo-img {
+    height: 45px;
+    width: auto;
+    display: block;
+    opacity: 0.85;
+    transition: opacity var(--hifi-transition);
+}
+
+.hifi-footer__logo-link:hover .hifi-footer__logo-img {
+    opacity: 1;
+}
+
 /* --- Navigation --- */
 .hifi-nav__list {
     display: flex;

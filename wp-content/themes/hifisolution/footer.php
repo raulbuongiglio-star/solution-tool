@@ -15,10 +15,9 @@ defined('ABSPATH') || exit;
 
                 <!-- Colonna 1: Info azienda -->
                 <div>
-                    <div class="hifi-header__brand" style="margin-bottom: 16px; display: inline-block;">
-                        <span class="hifi-header__brand-name">HiFi</span>
-                        <span class="hifi-header__brand-accent">Solution</span>
-                    </div>
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="hifi-footer__logo-link" rel="home" style="margin-bottom: 16px; display: inline-block;">
+                        <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/logo-hs.svg'); ?>" alt="H&amp;S Home Solution" class="hifi-footer__logo-img">
+                    </a>
                     <p class="hifi-footer__desc">
                         <?php esc_html_e('Da oltre 40 anni, il punto di riferimento a Napoli per l\'audio hi-fi di alta gamma. Passione, competenza e prodotti selezionati per un\'esperienza d\'ascolto senza compromessi.', 'hifisolution'); ?>
                     </p>
@@ -106,7 +105,7 @@ defined('ABSPATH') || exit;
             <!-- Footer Bottom -->
             <div class="hifi-footer__bottom">
                 <div>
-                    &copy; <?php echo esc_html(date('Y')); ?> HiFi Solution — <?php esc_html_e('Tutti i diritti riservati.', 'hifisolution'); ?>
+                    &copy; <?php echo esc_html(date('Y')); ?> H&amp;S Home Solution — <?php esc_html_e('Tutti i diritti riservati.', 'hifisolution'); ?>
                     | <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php esc_html_e('Privacy Policy', 'hifisolution'); ?></a>
                     | <a href="<?php echo esc_url(home_url('/cookie-policy/')); ?>"><?php esc_html_e('Cookie Policy', 'hifisolution'); ?></a>
                 </div>

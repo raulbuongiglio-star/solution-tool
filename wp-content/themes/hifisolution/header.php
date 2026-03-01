@@ -30,8 +30,7 @@ defined('ABSPATH') || exit;
                     <?php the_custom_logo(); ?>
                 <?php else : ?>
                     <a href="<?php echo esc_url(home_url('/')); ?>" class="hifi-header__brand" rel="home">
-                        <span class="hifi-header__brand-name">HiFi</span>
-                        <span class="hifi-header__brand-accent">Solution</span>
+                        <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/images/logo-hs.svg'); ?>" alt="H&amp;S Home Solution" class="hifi-header__logo-img">
                     </a>
                 <?php endif; ?>
             </div>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 90" fill="none">
+  <!-- H&S text -->
+  <text x="140" y="48" text-anchor="middle" font-family="'DM Sans', 'Inter', Arial, sans-serif" font-size="52" font-weight="700" fill="#c8a97e" letter-spacing="3">H&amp;S</text>
+  <!-- Home Solution text -->
+  <text x="140" y="78" text-anchor="middle" font-family="'DM Sans', 'Inter', Arial, sans-serif" font-size="18" font-weight="400" fill="#ffffff" letter-spacing="5" text-transform="uppercase">HOME SOLUTION</text>
+</svg>
